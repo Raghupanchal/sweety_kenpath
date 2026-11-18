@@ -34,3 +34,6 @@ coverage/
 
 .pgdata_embedded/
 server/.pgdata_embedded/
+
+server/data/
+data/
