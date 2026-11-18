@@ -49,18 +49,15 @@ export default function Navbar({ onOpenNewReading }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
-            <Link to="/" className="flex items-center space-x-3 group">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-500 flex items-center justify-center text-white shadow-soft group-hover:scale-105 transition-all">
-                <Droplets className="w-6 h-6 fill-white/20" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-extrabold tracking-tight text-[#1A1940]">
-                  Sweety<span className="text-brand-500">.</span>
-                </span>
-                <span className="text-[10px] font-bold text-[#8E8EA9] tracking-wider uppercase -mt-0.5">
-                  Glucose Tracker
-                </span>
-              </div>
+            <Link to="/" className="flex flex-col items-start group py-1">
+              <img
+                src="/sweety-logo.png"
+                alt="Sweety"
+                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+              />
+              <span className="text-[9px] font-extrabold text-[#8E8EA9] tracking-widest uppercase pl-1 -mt-1">
+                Glucose Tracker
+              </span>
             </Link>
 
             {/* Desktop Navigation Links */}
@@ -138,31 +135,28 @@ export default function Navbar({ onOpenNewReading }) {
       </header>
 
       {/* ================= MOBILE TOP HEADER ================= */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl border-b border-[#ECECFA] px-4 py-3.5 md:hidden">
+      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-xl border-b border-[#ECECFA] px-4 py-3 md:hidden">
         <div className="flex items-center justify-between">
-          {/* Patient Avatar & Info */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-400 text-white font-extrabold text-sm flex items-center justify-center shadow-soft">
-              {getInitials(user?.name)}
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold text-[#1A1940] leading-tight">
-                {user?.name || 'Patient'}
-              </span>
-              <span className="text-[11px] font-semibold text-brand-600 leading-tight">
-                Type 2 Care
-              </span>
-            </div>
-          </div>
+          {/* Logo with Glucose Tracker Subtitle */}
+          <Link to="/" className="flex flex-col items-start">
+            <img
+              src="/sweety-logo.png"
+              alt="Sweety"
+              className="h-8 w-auto object-contain"
+            />
+            <span className="text-[8px] font-extrabold text-[#8E8EA9] tracking-widest uppercase pl-0.5 -mt-0.5">
+              Glucose Tracker
+            </span>
+          </Link>
 
-          {/* Date & Logout button */}
+          {/* Right Side: Patient Avatar & Logout */}
           <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#F5F5FE] rounded-xl border border-[#ECECFA] text-xs font-bold text-[#646383]">
-              <span>{formatDateDisplay(todayStr).split(',')[0]}</span>
+            <div className="w-8 h-8 rounded-xl bg-brand-100 text-brand-700 font-extrabold text-xs flex items-center justify-center border border-brand-200">
+              {getInitials(user?.name)}
             </div>
             <button
               onClick={handleLogout}
-              className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
               title="Log out"
             >
               <LogOut className="w-4 h-4" />

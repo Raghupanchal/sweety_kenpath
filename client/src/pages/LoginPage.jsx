@@ -44,13 +44,15 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         {/* Brand Header */}
         <div className="text-center mb-7">
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white mx-auto shadow-soft-lg mb-3.5 transform hover:scale-105 transition-transform">
-            <Droplets className="w-8 h-8 fill-white/20" />
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1A1940] tracking-tight">
-            Welcome to Sweety<span className="text-brand-500">.</span>
-          </h1>
-          <p className="text-xs font-medium text-[#8E8EA9] mt-1">Smart, simplified daily blood glucose monitoring</p>
+          <img
+            src="/sweety-logo.png"
+            alt="Sweety"
+            className="h-14 sm:h-16 w-auto mx-auto object-contain drop-shadow-sm mb-1"
+          />
+          <span className="text-[10px] font-extrabold text-[#8E8EA9] tracking-widest uppercase">
+            Blood Glucose Tracker
+          </span>
+          <p className="text-xs font-medium text-[#8E8EA9] mt-2">Smart, simplified daily blood glucose monitoring</p>
         </div>
 
         {/* Card */}
