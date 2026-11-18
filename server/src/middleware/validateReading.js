@@ -25,7 +25,14 @@ async function validateReading(req, res, next) {
   try {
     const { date, reading_date, slot, value } = req.body;
     const targetDate = reading_date || date;
-    const readingId = req.params.id || null;
+    const rawId = req.params.id;
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    if (rawId && !uuidRegex.test(rawId)) {
+      return res.status(404).json({ error: 'Reading not found.' });
+    }
+
+    const readingId = rawId || null;
     const userId = req.user.id;
 
     // 1. Date presence and future check

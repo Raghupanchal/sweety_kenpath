@@ -84,6 +84,8 @@ async function getReadings(req, res, next) {
   }
 }
 
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 /**
  * GET /api/readings/:id
  */
@@ -91,6 +93,10 @@ async function getReadingById(req, res, next) {
   try {
     const { id } = req.params;
     const userId = req.user.id;
+
+    if (!uuidRegex.test(id)) {
+      return res.status(404).json({ error: 'Reading not found.' });
+    }
 
     const result = await query(
       `SELECT id, user_id, reading_date, slot, value, created_at, updated_at
@@ -198,6 +204,10 @@ async function deleteReading(req, res, next) {
   try {
     const { id } = req.params;
     const userId = req.user.id;
+
+    if (!uuidRegex.test(id)) {
+      return res.status(404).json({ error: 'Reading not found.' });
+    }
 
     const result = await query(
       'DELETE FROM readings WHERE id = $1 AND user_id = $2 RETURNING id',

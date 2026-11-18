@@ -4,7 +4,7 @@ import { SLOTS, getTodayString, getGlucoseCategory } from '../utils/glucoseHelpe
 import api from '../services/api';
 
 export default function ReadingModal({ isOpen, onClose, onSuccess, initialData = null }) {
-  const isEditing = !!initialData;
+  const isEditing = Boolean(initialData && initialData.id);
   const todayStr = getTodayString();
 
   const [date, setDate] = useState(todayStr);
