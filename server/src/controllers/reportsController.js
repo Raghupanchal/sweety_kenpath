@@ -59,7 +59,7 @@ async function getAggregateStats(userId, startDate, endDate) {
        COUNT(*)::int AS count,
        MAX(value) AS highest,
        MIN(value) AS lowest,
-       ROUND(AVG(value)::numeric, 1) AS average
+       AVG(value) AS average
      FROM readings
      WHERE user_id = $1 AND reading_date >= $2 AND reading_date <= $3`,
     [userId, startDate, endDate]
@@ -82,7 +82,7 @@ async function getAggregateStats(userId, startDate, endDate) {
     count,
     highest: parseInt(row.highest, 10),
     lowest: parseInt(row.lowest, 10),
-    average: parseFloat(row.average),
+    average: row.average !== null ? Number(parseFloat(row.average).toFixed(1)) : null,
     hasReadings: true,
   };
 }
