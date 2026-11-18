@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Clock, Droplets, AlertCircle, Sparkles } from 'lucide-react';
+import { X, Calendar, Clock, Droplets, AlertCircle } from 'lucide-react';
 import { SLOTS, getTodayString, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
 
@@ -111,22 +111,22 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
     : null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1A1940]/50 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="relative bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-md w-full p-6 sm:p-7 border border-[#ECECFA] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#05193C]/60 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="relative bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-md w-full p-6 sm:p-7 border border-[#E8ECF4] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
         {/* Mobile Pull Indicator */}
         <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-4 sm:hidden"></div>
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-[#ECECFA]">
+        <div className="flex items-center justify-between pb-4 border-b border-[#E8ECF4]">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center border border-brand-100">
-              <Droplets className="w-5 h-5 fill-brand-600/20" />
+            <div className="w-10 h-10 rounded-2xl bg-[#FFF0F5] text-[#FA0C57] flex items-center justify-center border border-[#FFE0EB]">
+              <Droplets className="w-5 h-5 fill-[#FA0C57]/20" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-extrabold text-[#1A1940]">
+              <h3 className="text-base sm:text-lg font-extrabold text-[#05193C]">
                 {isEditing ? 'Edit Glucose Reading' : 'Log Blood Glucose'}
               </h3>
-              <p className="text-xs text-[#8E8EA9]">Record accurate capillary measurement</p>
+              <p className="text-xs text-[#05193C]/60 font-medium">Record accurate capillary measurement</p>
             </div>
           </div>
           <button
@@ -149,8 +149,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
         <form onSubmit={handleSubmit} className="mt-5 space-y-4" noValidate>
           {/* Date Field */}
           <div>
-            <label htmlFor="reading-date-input" className="block text-[11px] font-bold uppercase tracking-wider text-[#646383] mb-1.5 flex items-center space-x-1.5">
-              <Calendar className="w-3.5 h-3.5 text-brand-500" />
+            <label htmlFor="reading-date-input" className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center space-x-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#FA0C57]" />
               <span>Date</span>
             </label>
             <input
@@ -163,8 +163,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                 setDate(e.target.value);
                 setFieldErrors((prev) => ({ ...prev, date: null }));
               }}
-              className={`w-full px-4 py-3 bg-[#F8F9FE] border rounded-2xl text-sm font-bold text-[#1A1940] focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all ${
-                fieldErrors.date ? 'border-rose-400 bg-rose-50/40' : 'border-[#ECECFA] focus:border-brand-500'
+              className={`w-full px-4 py-3 bg-[#F8F9FC] border rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 transition-all ${
+                fieldErrors.date ? 'border-rose-400 bg-rose-50/40' : 'border-[#E8ECF4] focus:border-[#FA0C57]'
               }`}
             />
             {fieldErrors.date && (
@@ -177,12 +177,12 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
 
           {/* Time Slot Field */}
           <div>
-            <label htmlFor="reading-slot-select" className="block text-[11px] font-bold uppercase tracking-wider text-[#646383] mb-1.5 flex items-center justify-between">
+            <label htmlFor="reading-slot-select" className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center justify-between">
               <span className="flex items-center space-x-1.5">
-                <Clock className="w-3.5 h-3.5 text-brand-500" />
+                <Clock className="w-3.5 h-3.5 text-[#FA0C57]" />
                 <span>Measurement Slot</span>
               </span>
-              <span className="text-[10px] text-[#8E8EA9] font-medium">4 daily slots</span>
+              <span className="text-[10px] text-[#05193C]/50 font-medium">4 daily slots</span>
             </label>
 
             {/* Select dropdown for accessibility & RTL test compatibility */}
@@ -194,8 +194,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                 setSlot(e.target.value);
                 setFieldErrors((prev) => ({ ...prev, slot: null }));
               }}
-              className={`w-full px-4 py-3 bg-[#F8F9FE] border rounded-2xl text-sm font-bold text-[#1A1940] focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all ${
-                fieldErrors.slot ? 'border-rose-400 bg-rose-50/40' : 'border-[#ECECFA] focus:border-brand-500'
+              className={`w-full px-4 py-3 bg-[#F8F9FC] border rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 transition-all ${
+                fieldErrors.slot ? 'border-rose-400 bg-rose-50/40' : 'border-[#E8ECF4] focus:border-[#FA0C57]'
               }`}
             >
               {SLOTS.map((s) => (
@@ -205,7 +205,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
               ))}
             </select>
 
-            {/* Visual Chip selector for quick 1-tap mobile experience */}
+            {/* Visual Chip selector using Light Button / Primary Button theme */}
             <div className="grid grid-cols-2 gap-2 mt-2">
               {SLOTS.map((s) => (
                 <button
@@ -215,10 +215,10 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                     setSlot(s);
                     setFieldErrors((prev) => ({ ...prev, slot: null }));
                   }}
-                  className={`py-2 px-2.5 rounded-xl text-[11px] font-bold text-center border transition-all truncate ${
+                  className={`py-2 px-2.5 rounded-xl text-[11px] font-extrabold text-center border transition-all truncate ${
                     slot === s
-                      ? 'bg-brand-500 text-white border-brand-500 shadow-sm'
-                      : 'bg-[#F8F9FE] text-[#646383] border-[#ECECFA] hover:border-brand-200'
+                      ? 'bg-[#FA0C57] text-white border-[#FA0C57] shadow-sm'
+                      : 'bg-[#FFF0F5] text-[#FA0C57] border-[#FFE0EB] hover:bg-[#FFE2EC]'
                   }`}
                 >
                   {s}
@@ -236,12 +236,12 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
 
           {/* Value Field */}
           <div>
-            <label htmlFor="reading-value-input" className="block text-[11px] font-bold uppercase tracking-wider text-[#646383] mb-1.5 flex items-center justify-between">
+            <label htmlFor="reading-value-input" className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center justify-between">
               <span className="flex items-center space-x-1.5">
-                <Droplets className="w-3.5 h-3.5 text-brand-500" />
+                <Droplets className="w-3.5 h-3.5 text-[#FA0C57]" />
                 <span>Glucose Value (mg/dl)</span>
               </span>
-              <span className="text-[10px] text-[#8E8EA9] font-normal">Range: 40 – 600</span>
+              <span className="text-[10px] text-[#05193C]/50 font-normal">Range: 40 – 600</span>
             </label>
             <div className="relative">
               <input
@@ -257,11 +257,11 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                   setValue(e.target.value);
                   setFieldErrors((prev) => ({ ...prev, value: null }));
                 }}
-                className={`w-full px-4 py-3 bg-[#F8F9FE] border rounded-2xl text-lg font-extrabold text-[#1A1940] focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-all pr-16 ${
-                  fieldErrors.value ? 'border-rose-400 bg-rose-50/40' : 'border-[#ECECFA] focus:border-brand-500'
+                className={`w-full px-4 py-3 bg-[#F8F9FC] border rounded-2xl text-lg font-extrabold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 transition-all pr-16 ${
+                  fieldErrors.value ? 'border-rose-400 bg-rose-50/40' : 'border-[#E8ECF4] focus:border-[#FA0C57]'
                 }`}
               />
-              <span className="absolute right-4 top-3.5 text-xs font-bold text-[#8E8EA9]">
+              <span className="absolute right-4 top-3.5 text-xs font-extrabold text-[#05193C]/40">
                 mg/dl
               </span>
             </div>
@@ -274,8 +274,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
 
             {/* Live Clinical Tag Preview */}
             {previewCategory && (
-              <div className="mt-2.5 p-2.5 rounded-2xl bg-[#F8F9FE] border border-[#ECECFA] flex items-center justify-between text-xs">
-                <span className="text-[#8E8EA9] font-medium">Status Assessment:</span>
+              <div className="mt-2.5 p-2.5 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between text-xs">
+                <span className="text-[#05193C]/60 font-medium">Status Assessment:</span>
                 <span className={`inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full font-bold ${previewCategory.badgeColor}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${previewCategory.dotColor}`}></span>
                   <span>{previewCategory.label}</span>
@@ -284,20 +284,20 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
             )}
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons: Primary (#FA0C57) and Light Button (#FFF0F5 / #FA0C57) */}
           <div className="pt-2 flex items-center space-x-3">
             <button
               type="button"
               onClick={onClose}
               disabled={submitting}
-              className="w-1/2 py-3 px-4 border border-[#ECECFA] bg-slate-50 hover:bg-slate-100 rounded-2xl text-xs font-bold text-[#646383] transition-colors"
+              className="w-1/2 py-3 px-4 border border-[#FFE0EB] bg-[#FFF0F5] hover:bg-[#FFE2EC] rounded-2xl text-xs font-extrabold text-[#FA0C57] transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="w-1/2 py-3 px-4 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 active:scale-95 text-white rounded-2xl text-xs font-bold shadow-soft transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-1/2 py-3 px-4 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white rounded-2xl text-xs font-extrabold shadow-primary-glow transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -305,7 +305,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                   <span>Saving...</span>
                 </>
               ) : (
-                <span>{isEditing ? 'Update Reading' : 'Save Reading'}</span>
+                <span>{isEditing ? 'Update Reading' : 'Save Glucose Reading'}</span>
               )}
             </button>
           </div>

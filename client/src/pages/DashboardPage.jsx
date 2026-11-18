@@ -6,13 +6,11 @@ import {
   Plus,
   Clock,
   ArrowRight,
-  Sparkles,
   TrendingUp,
   BarChart2,
   Edit2,
   Trash2,
   CheckCircle,
-  AlertCircle,
   Calendar,
 } from 'lucide-react';
 import { SLOTS, getTodayString, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
@@ -96,7 +94,6 @@ export default function DashboardPage() {
     return todayReadings.find((r) => r.slot === slotName);
   };
 
-  // Latest reading calculation for Hero droplet
   const latestReading = todayReadings.length > 0
     ? todayReadings[todayReadings.length - 1]
     : (recentReadings.length > 0 ? recentReadings[0] : null);
@@ -105,35 +102,35 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-8 space-y-6 md:space-y-8 pb-24 md:pb-12">
-      {/* ================= HERO GLUCOSE MONITORING CARD (MATCHING REFERENCE UI) ================= */}
-      <div className="relative overflow-hidden bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-9 border border-[#ECECFA] shadow-soft">
-        {/* Soft background ambient gradient accents */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-brand-100/50 via-brand-50/30 to-transparent rounded-full blur-2xl pointer-events-none -mr-16 -mt-16"></div>
+      {/* ================= HERO GLUCOSE MONITORING CARD ================= */}
+      <div className="relative overflow-hidden bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-9 border border-[#E8ECF4] shadow-soft">
+        {/* Ambient brand glow accents */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#FFF0F5] via-[#FFE2EC]/30 to-transparent rounded-full blur-2xl pointer-events-none -mr-16 -mt-16"></div>
 
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
           {/* Central Droplet & Status Graphic */}
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-7 text-center sm:text-left">
             {/* Concentric Circle Droplet Motif */}
             <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-2 border-dashed border-brand-200/80 animate-[spin_40s_linear_infinite]"></div>
-              <div className="absolute inset-2.5 rounded-full bg-brand-50/70 border border-brand-100"></div>
-              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-white flex items-center justify-center shadow-soft-lg transform hover:scale-105 transition-transform">
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#FFC5D9] animate-[spin_40s_linear_infinite]"></div>
+              <div className="absolute inset-2.5 rounded-full bg-[#FFF0F5] border border-[#FFE0EB]"></div>
+              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-[#FA0C57] text-white flex items-center justify-center shadow-primary-glow transform hover:scale-105 transition-transform">
                 <Droplets className="w-9 h-9 sm:w-10 sm:h-10 fill-white/20" />
               </div>
             </div>
 
             {/* Glucose Level & Status */}
             <div>
-              <div className="flex items-center justify-center sm:justify-start space-x-2 text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">
-                <Clock className="w-3.5 h-3.5 text-brand-500" />
+              <div className="flex items-center justify-center sm:justify-start space-x-2 text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">
+                <Clock className="w-3.5 h-3.5 text-[#FA0C57]" />
                 <span>{latestReading ? `Latest: ${latestReading.slot}` : "Today's Status"}</span>
               </div>
 
               <div className="mt-1 flex items-baseline justify-center sm:justify-start space-x-2">
-                <span className="text-4xl sm:text-5xl font-extrabold text-[#1A1940] tracking-tight">
+                <span className="text-4xl sm:text-5xl font-extrabold text-[#05193C] tracking-tight">
                   {latestReading ? latestReading.value : '--'}
                 </span>
-                <span className="text-sm font-bold text-[#8E8EA9]">mg/dl</span>
+                <span className="text-sm font-bold text-[#05193C]/50">mg/dl</span>
               </div>
 
               {latestCat ? (
@@ -144,37 +141,38 @@ export default function DashboardPage() {
                   </span>
                 </div>
               ) : (
-                <p className="text-xs font-medium text-[#8E8EA9] mt-1">No readings logged yet today</p>
+                <p className="text-xs font-medium text-[#05193C]/50 mt-1">No readings logged yet today</p>
               )}
             </div>
           </div>
 
           {/* Right Action Button & Progress */}
-          <div className="w-full sm:w-auto flex flex-col items-center sm:items-end space-y-3">
+          <div className="w-full sm:w-auto flex flex-col items-center sm:items-end space-y-3.5">
             <div className="text-center sm:text-right">
-              <span className="text-xs font-semibold text-[#8E8EA9]">Daily Target Progress</span>
-              <p className="text-sm font-extrabold text-[#1A1940]">
+              <span className="text-xs font-semibold text-[#05193C]/60">Daily Target Progress</span>
+              <p className="text-sm font-extrabold text-[#05193C]">
                 {todayReadings.length} of 4 Slots Logged
               </p>
               {/* Progress bar */}
               <div className="w-48 h-2 bg-slate-100 rounded-full overflow-hidden mt-1.5 mx-auto sm:ml-auto">
                 <div
-                  className="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-[#05193C] to-[#FA0C57] rounded-full transition-all duration-500"
                   style={{ width: `${(todayReadings.length / 4) * 100}%` }}
                 ></div>
               </div>
             </div>
 
+            {/* Primary Button: #FA0C57 with White Text */}
             <button
               onClick={() => {
                 setModalInitialData(null);
                 setIsModalOpen(true);
               }}
               disabled={todayReadings.length >= 4}
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 active:scale-95 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-soft transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-primary-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
-              <span>{todayReadings.length >= 4 ? 'All 4 Slots Complete' : 'Log Blood Glucose'}</span>
+              <span>{todayReadings.length >= 4 ? 'All 4 Slots Complete' : 'Save Glucose Reading'}</span>
             </button>
           </div>
         </div>
@@ -184,10 +182,10 @@ export default function DashboardPage() {
       <div>
         <div className="flex items-center justify-between mb-3.5 px-1">
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-[#1A1940]">Today's Readings</h2>
-            <p className="text-xs text-[#8E8EA9]">4 clinical slots: fasting & post-meal</p>
+            <h2 className="text-base sm:text-lg font-bold text-[#05193C]">Today's Readings</h2>
+            <p className="text-xs text-[#05193C]/60 font-medium">4 clinical slots: fasting & post-meal</p>
           </div>
-          <span className="text-[11px] font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-100">
+          <span className="text-[11px] font-extrabold text-[#FA0C57] bg-[#FFF0F5] px-3 py-1 rounded-full border border-[#FFE0EB]">
             {todayReadings.length}/4 Done
           </span>
         </div>
@@ -203,18 +201,18 @@ export default function DashboardPage() {
                 key={slotName}
                 className={`rounded-3xl p-5 border transition-all ${
                   isRecorded
-                    ? 'bg-white border-[#ECECFA] shadow-soft hover:border-brand-300'
-                    : 'bg-white/60 border-dashed border-[#D7D6FD]/80 hover:bg-white'
+                    ? 'bg-white border-[#E8ECF4] shadow-soft hover:border-[#FA0C57]/40'
+                    : 'bg-white/70 border-dashed border-[#FFC5D9] hover:bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2.5">
-                  <span className="text-xs font-bold text-[#646383] truncate">{slotName}</span>
+                  <span className="text-xs font-bold text-[#05193C]/80 truncate">{slotName}</span>
                   {isRecorded ? (
                     <span className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
                       <CheckCircle className="w-4 h-4" />
                     </span>
                   ) : (
-                    <span className="text-[10px] font-bold text-[#8E8EA9] bg-slate-100 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-[#05193C]/50 bg-slate-100 px-2 py-0.5 rounded-full">
                       Open
                     </span>
                   )}
@@ -223,8 +221,8 @@ export default function DashboardPage() {
                 {isRecorded ? (
                   <div>
                     <div className="flex items-baseline space-x-1.5 my-1">
-                      <span className="text-3xl font-extrabold text-[#1A1940] tracking-tight">{reading.value}</span>
-                      <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
+                      <span className="text-3xl font-extrabold text-[#05193C] tracking-tight">{reading.value}</span>
+                      <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                     </div>
 
                     <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-100">
@@ -235,7 +233,7 @@ export default function DashboardPage() {
                         <button
                           onClick={() => handleEditReading(reading)}
                           title="Edit reading"
-                          className="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl transition-colors"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -251,10 +249,11 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   <div className="pt-2">
-                    <p className="text-[11px] text-[#8E8EA9] mb-3">No entry recorded yet</p>
+                    <p className="text-[11px] text-[#05193C]/50 mb-3">No entry recorded yet</p>
+                    {/* Light Button: Background #FFF0F5, Text #FA0C57 */}
                     <button
                       onClick={() => handleOpenAddForSlot(slotName)}
-                      className="w-full py-2.5 px-3 rounded-2xl bg-brand-50 hover:bg-brand-100 border border-brand-200 text-brand-700 text-xs font-bold flex items-center justify-center space-x-1.5 transition-all shadow-sm active:scale-95"
+                      className="w-full py-2.5 px-3 rounded-2xl bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] text-[#FA0C57] text-xs font-extrabold flex items-center justify-center space-x-1.5 transition-all shadow-sm active:scale-95"
                     >
                       <Plus className="w-3.5 h-3.5 stroke-[3]" />
                       <span>Log Slot</span>
@@ -271,12 +270,12 @@ export default function DashboardPage() {
       <div>
         <div className="flex items-center justify-between mb-3.5 px-1">
           <div>
-            <h2 className="text-base sm:text-lg font-bold text-[#1A1940]">Analytics Summary</h2>
-            <p className="text-xs text-[#8E8EA9]">Quick glimpse of glycemic averages</p>
+            <h2 className="text-base sm:text-lg font-bold text-[#05193C]">Analytics Summary</h2>
+            <p className="text-xs text-[#05193C]/60 font-medium">Quick glimpse of glycemic averages</p>
           </div>
           <Link
             to="/reports"
-            className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center space-x-1 group"
+            className="text-xs font-extrabold text-[#FA0C57] hover:text-[#E00A4D] flex items-center space-x-1 group"
           >
             <span>Full Reports</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -285,78 +284,78 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Today's Daily */}
-          <div className="bg-white rounded-3xl p-5 border border-[#ECECFA] shadow-soft">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">Daily Average (Today)</span>
+          <div className="bg-white rounded-3xl p-5 border border-[#E8ECF4] shadow-soft">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">Daily Average (Today)</span>
             {reportsData?.daily?.count > 0 ? (
               <div className="mt-2">
                 <div className="flex items-baseline space-x-1.5">
-                  <span className="text-3xl font-extrabold text-[#1A1940]">{reportsData.daily.average?.toFixed(1)}</span>
-                  <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
+                  <span className="text-3xl font-extrabold text-[#05193C]">{reportsData.daily.average?.toFixed(1)}</span>
+                  <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-[#646383] pt-2.5 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-slate-100">
                   <span>High: <strong>{reportsData.daily.highest}</strong></span>
                   <span>Low: <strong>{reportsData.daily.lowest}</strong></span>
                   <span>Readings: <strong>{reportsData.daily.count}</strong></span>
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-[#8E8EA9] mt-2">No entries logged today.</p>
+              <p className="text-xs text-[#05193C]/50 mt-2">No entries logged today.</p>
             )}
           </div>
 
           {/* Month to Date */}
-          <div className="bg-white rounded-3xl p-5 border border-[#ECECFA] shadow-soft">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">Month-to-Date Avg</span>
+          <div className="bg-white rounded-3xl p-5 border border-[#E8ECF4] shadow-soft">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">Month-to-Date Avg</span>
             {reportsData?.monthToDate?.count > 0 ? (
               <div className="mt-2">
                 <div className="flex items-baseline space-x-1.5">
-                  <span className="text-3xl font-extrabold text-[#1A1940]">{reportsData.monthToDate.average?.toFixed(1)}</span>
-                  <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
+                  <span className="text-3xl font-extrabold text-[#05193C]">{reportsData.monthToDate.average?.toFixed(1)}</span>
+                  <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-[#646383] pt-2.5 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-slate-100">
                   <span>High: <strong>{reportsData.monthToDate.highest}</strong></span>
                   <span>Low: <strong>{reportsData.monthToDate.lowest}</strong></span>
                   <span>Readings: <strong>{reportsData.monthToDate.count}</strong></span>
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-[#8E8EA9] mt-2">No entries this month yet.</p>
+              <p className="text-xs text-[#05193C]/50 mt-2">No entries this month yet.</p>
             )}
           </div>
 
           {/* Previous Month */}
-          <div className="bg-white rounded-3xl p-5 border border-[#ECECFA] shadow-soft">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">
+          <div className="bg-white rounded-3xl p-5 border border-[#E8ECF4] shadow-soft">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">
               {reportsData?.monthly?.monthLabel || 'Previous Month'}
             </span>
             {reportsData?.monthly?.count > 0 ? (
               <div className="mt-2">
                 <div className="flex items-baseline space-x-1.5">
-                  <span className="text-3xl font-extrabold text-[#1A1940]">{reportsData.monthly.average?.toFixed(1)}</span>
-                  <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
+                  <span className="text-3xl font-extrabold text-[#05193C]">{reportsData.monthly.average?.toFixed(1)}</span>
+                  <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-[#646383] pt-2.5 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-slate-100">
                   <span>High: <strong>{reportsData.monthly.highest}</strong></span>
                   <span>Low: <strong>{reportsData.monthly.lowest}</strong></span>
                   <span>Readings: <strong>{reportsData.monthly.count}</strong></span>
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-[#8E8EA9] mt-2">No entries in previous month.</p>
+              <p className="text-xs text-[#05193C]/50 mt-2">No entries in previous month.</p>
             )}
           </div>
         </div>
       </div>
 
       {/* ================= RECENT READINGS LIST (RESPONSIVE TABLE + MOBILE CARDS) ================= */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#ECECFA] shadow-soft">
+      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E8ECF4] shadow-soft">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-bold text-[#1A1940]">Recent Entries</h2>
+          <h2 className="text-base font-bold text-[#05193C]">Recent Entries</h2>
           <Link
             to="/readings"
-            className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center space-x-1"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-2xl bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] text-[#FA0C57] text-xs font-extrabold transition-all active:scale-95 shadow-sm"
           >
-            <span>View All</span>
+            <span>View History</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -367,7 +366,7 @@ export default function DashboardPage() {
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-[#ECECFA] text-[11px] font-bold uppercase text-[#8E8EA9]">
+                  <tr className="border-b border-[#E8ECF4] text-[11px] font-bold uppercase text-[#05193C]/60">
                     <th className="pb-3 pl-2">Date</th>
                     <th className="pb-3">Slot</th>
                     <th className="pb-3">Value</th>
@@ -380,12 +379,12 @@ export default function DashboardPage() {
                     const cat = getGlucoseCategory(r.value);
                     return (
                       <tr key={r.id} className="hover:bg-slate-50/70 transition-colors">
-                        <td className="py-3.5 pl-2 font-bold text-[#1A1940]">
+                        <td className="py-3.5 pl-2 font-bold text-[#05193C]">
                           {formatDateDisplay(r.reading_date)}
                         </td>
-                        <td className="py-3.5 text-[#646383] font-medium">{r.slot}</td>
-                        <td className="py-3.5 font-extrabold text-[#1A1940]">
-                          {r.value} <span className="text-xs text-[#8E8EA9] font-normal">mg/dl</span>
+                        <td className="py-3.5 text-[#05193C]/80 font-medium">{r.slot}</td>
+                        <td className="py-3.5 font-extrabold text-[#05193C]">
+                          {r.value} <span className="text-xs text-[#05193C]/50 font-normal">mg/dl</span>
                         </td>
                         <td className="py-3.5">
                           <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${cat.badgeColor}`}>
@@ -395,7 +394,7 @@ export default function DashboardPage() {
                         <td className="py-3.5 pr-2 text-right space-x-1">
                           <button
                             onClick={() => handleEditReading(r)}
-                            className="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-colors"
+                            className="p-1.5 text-slate-400 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl transition-colors"
                             title="Edit"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -422,16 +421,16 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={r.id}
-                    className="p-3.5 rounded-2xl bg-[#F8F9FE] border border-[#ECECFA] flex items-center justify-between"
+                    className="p-3.5 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between"
                   >
                     <div>
-                      <p className="text-xs font-bold text-[#1A1940]">{r.slot}</p>
-                      <p className="text-[11px] text-[#8E8EA9]">{formatDateDisplay(r.reading_date)}</p>
+                      <p className="text-xs font-bold text-[#05193C]">{r.slot}</p>
+                      <p className="text-[11px] text-[#05193C]/50 font-medium">{formatDateDisplay(r.reading_date)}</p>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="text-right">
-                        <span className="text-base font-extrabold text-[#1A1940]">{r.value}</span>
-                        <span className="text-[10px] text-[#8E8EA9] ml-1">mg/dl</span>
+                        <span className="text-base font-extrabold text-[#05193C]">{r.value}</span>
+                        <span className="text-[10px] text-[#05193C]/50 ml-1">mg/dl</span>
                         <div>
                           <span className={`px-2 py-0.2 rounded-full text-[10px] font-bold ${cat.badgeColor}`}>
                             {cat.label}
@@ -441,7 +440,7 @@ export default function DashboardPage() {
                       <div className="flex items-center space-x-1 pl-2 border-l border-slate-200">
                         <button
                           onClick={() => handleEditReading(r)}
-                          className="p-1.5 text-slate-400 hover:text-brand-600"
+                          className="p-1.5 text-slate-400 hover:text-[#FA0C57]"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -459,7 +458,7 @@ export default function DashboardPage() {
             </div>
           </div>
         ) : (
-          <p className="text-xs text-[#8E8EA9] py-6 text-center">No readings found. Start by logging one!</p>
+          <p className="text-xs text-[#05193C]/50 py-6 text-center">No readings found. Start by logging one!</p>
         )}
       </div>
 

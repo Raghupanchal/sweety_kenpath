@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Calendar,
   Filter,
@@ -10,6 +11,7 @@ import {
   RefreshCw,
   XCircle,
   Clock,
+  LayoutGrid,
 } from 'lucide-react';
 import { SLOTS, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
@@ -93,27 +95,39 @@ export default function ReadingsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-1">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-[#1A1940] tracking-tight">Glucose Readings Log</h1>
-          <p className="text-xs text-[#8E8EA9]">Complete history with 4-slot daily quota records</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-[#05193C] tracking-tight">Glucose Readings Log</h1>
+          <p className="text-xs text-[#05193C]/60">Complete history with 4-slot daily quota records</p>
         </div>
 
-        <button
-          onClick={() => {
-            setModalInitialData(null);
-            setIsModalOpen(true);
-          }}
-          className="inline-flex items-center space-x-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 active:scale-95 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl shadow-soft transition-all self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4 stroke-[3]" />
-          <span>Log Reading</span>
-        </button>
+        <div className="flex items-center space-x-2.5 self-start sm:self-auto">
+          {/* Secondary Button: View Dashboard (#05193C text #FFFFFF) */}
+          <Link
+            to="/"
+            className="inline-flex items-center space-x-2 bg-[#05193C] hover:bg-[#0A2656] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-4 py-2.5 rounded-2xl shadow-soft transition-all"
+          >
+            <LayoutGrid className="w-4 h-4" />
+            <span>View Dashboard</span>
+          </Link>
+
+          {/* Primary Button: Save Glucose Reading (#FA0C57 text #FFFFFF) */}
+          <button
+            onClick={() => {
+              setModalInitialData(null);
+              setIsModalOpen(true);
+            }}
+            className="inline-flex items-center space-x-2 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-4.5 py-2.5 rounded-2xl shadow-primary-glow transition-all"
+          >
+            <Plus className="w-4 h-4 stroke-[3]" />
+            <span>Save Glucose Reading</span>
+          </button>
+        </div>
       </div>
 
       {/* Filter Toolbar */}
-      <div className="bg-white rounded-3xl p-4 sm:p-5 border border-[#ECECFA] shadow-soft flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <div className="bg-white rounded-3xl p-4 sm:p-5 border border-[#E8ECF4] shadow-soft flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
-          <div className="flex items-center space-x-1.5 text-xs font-bold text-[#8E8EA9] uppercase tracking-wider pr-1">
-            <Filter className="w-3.5 h-3.5 text-brand-500" />
+          <div className="flex items-center space-x-1.5 text-xs font-bold text-[#05193C]/60 uppercase tracking-wider pr-1">
+            <Filter className="w-3.5 h-3.5 text-[#FA0C57]" />
             <span>Filter:</span>
           </div>
 
@@ -123,7 +137,7 @@ export default function ReadingsPage() {
               type="date"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="px-3 py-2 bg-[#F8F9FE] border border-[#ECECFA] rounded-xl text-xs font-bold text-[#1A1940] focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+              className="px-3 py-2 bg-[#F8F9FC] border border-[#E8ECF4] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57]"
             />
           </div>
 
@@ -132,7 +146,7 @@ export default function ReadingsPage() {
             <select
               value={slotFilter}
               onChange={(e) => setSlotFilter(e.target.value)}
-              className="px-3 py-2 bg-[#F8F9FE] border border-[#ECECFA] rounded-xl text-xs font-bold text-[#1A1940] focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+              className="px-3 py-2 bg-[#F8F9FC] border border-[#E8ECF4] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57]"
             >
               <option value="">All Slots</option>
               {SLOTS.map((s) => (
@@ -146,7 +160,7 @@ export default function ReadingsPage() {
           {(dateFilter || slotFilter) && (
             <button
               onClick={handleClearFilters}
-              className="inline-flex items-center space-x-1 text-xs text-rose-600 hover:text-rose-700 font-bold px-2.5 py-1.5 rounded-xl hover:bg-rose-50 transition-colors"
+              className="inline-flex items-center space-x-1 text-xs text-[#FA0C57] bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] font-extrabold px-3 py-1.5 rounded-xl transition-all"
             >
               <XCircle className="w-3.5 h-3.5" />
               <span>Reset</span>
@@ -156,27 +170,27 @@ export default function ReadingsPage() {
 
         <button
           onClick={() => fetchReadings(pagination.page)}
-          className="p-2 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl self-end md:self-auto transition-colors"
+          className="p-2 text-[#05193C]/50 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl self-end md:self-auto transition-colors"
           title="Refresh table"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#FA0C57]' : ''}`} />
         </button>
       </div>
 
       {/* Readings Table Card */}
-      <div className="bg-white rounded-3xl border border-[#ECECFA] shadow-soft overflow-hidden">
+      <div className="bg-white rounded-3xl border border-[#E8ECF4] shadow-soft overflow-hidden">
         {loading ? (
           <div className="py-16 text-center">
-            <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-            <p className="text-xs text-[#8E8EA9]">Loading readings log...</p>
+            <div className="w-8 h-8 border-4 border-[#FA0C57] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <p className="text-xs text-[#05193C]/60">Loading readings log...</p>
           </div>
         ) : readings.length > 0 ? (
           <div>
             {/* Desktop Table */}
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-[#F8F9FE] border-b border-[#ECECFA]">
-                  <tr className="text-[11px] font-bold uppercase text-[#8E8EA9]">
+                <thead className="bg-[#F8F9FC] border-b border-[#E8ECF4]">
+                  <tr className="text-[11px] font-bold uppercase text-[#05193C]/60">
                     <th className="py-3.5 pl-6">Date</th>
                     <th className="py-3.5 px-4">Time Slot</th>
                     <th className="py-3.5 px-4">Glucose Level</th>
@@ -188,14 +202,14 @@ export default function ReadingsPage() {
                   {readings.map((r) => {
                     const cat = getGlucoseCategory(r.value);
                     return (
-                      <tr key={r.id} className="hover:bg-[#F8F9FE]/80 transition-colors">
-                        <td className="py-4 pl-6 font-bold text-[#1A1940]">
+                      <tr key={r.id} className="hover:bg-[#F8F9FC]/80 transition-colors">
+                        <td className="py-4 pl-6 font-bold text-[#05193C]">
                           {formatDateDisplay(r.reading_date)}
                         </td>
-                        <td className="py-4 px-4 text-[#646383] font-medium">{r.slot}</td>
-                        <td className="py-4 px-4 font-extrabold text-[#1A1940]">
+                        <td className="py-4 px-4 text-[#05193C]/80 font-medium">{r.slot}</td>
+                        <td className="py-4 px-4 font-extrabold text-[#05193C]">
                           <span className="text-base">{r.value}</span>{' '}
-                          <span className="text-xs font-normal text-[#8E8EA9]">mg/dl</span>
+                          <span className="text-xs font-normal text-[#05193C]/50">mg/dl</span>
                         </td>
                         <td className="py-4 px-4">
                           <span
@@ -208,7 +222,7 @@ export default function ReadingsPage() {
                         <td className="py-4 pr-6 text-right space-x-1">
                           <button
                             onClick={() => handleEdit(r)}
-                            className="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-colors"
+                            className="p-1.5 text-slate-400 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl transition-colors"
                             title="Edit"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -235,17 +249,17 @@ export default function ReadingsPage() {
                 return (
                   <div
                     key={r.id}
-                    className="p-4 rounded-2xl bg-[#F8F9FE] border border-[#ECECFA] flex items-center justify-between shadow-sm"
+                    className="p-4 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between shadow-sm"
                   >
                     <div>
-                      <span className="text-xs font-extrabold text-[#1A1940]">{r.slot}</span>
-                      <p className="text-[11px] text-[#8E8EA9] mt-0.5">{formatDateDisplay(r.reading_date)}</p>
+                      <span className="text-xs font-extrabold text-[#05193C]">{r.slot}</span>
+                      <p className="text-[11px] text-[#05193C]/60 mt-0.5">{formatDateDisplay(r.reading_date)}</p>
                     </div>
 
                     <div className="flex items-center space-x-3">
                       <div className="text-right">
-                        <span className="text-lg font-extrabold text-[#1A1940]">{r.value}</span>
-                        <span className="text-[10px] text-[#8E8EA9] ml-1">mg/dl</span>
+                        <span className="text-lg font-extrabold text-[#05193C]">{r.value}</span>
+                        <span className="text-[10px] text-[#05193C]/50 ml-1">mg/dl</span>
                         <div>
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${cat.badgeColor}`}>
                             {cat.label}
@@ -256,7 +270,7 @@ export default function ReadingsPage() {
                       <div className="flex items-center space-x-1 pl-2 border-l border-slate-200">
                         <button
                           onClick={() => handleEdit(r)}
-                          className="p-1.5 text-slate-400 hover:text-brand-600"
+                          className="p-1.5 text-slate-400 hover:text-[#FA0C57]"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -275,8 +289,8 @@ export default function ReadingsPage() {
           </div>
         ) : (
           <div className="py-16 text-center">
-            <p className="text-sm font-bold text-[#1A1940]">No readings found</p>
-            <p className="text-xs text-[#8E8EA9] mt-1 max-w-xs mx-auto">
+            <p className="text-sm font-bold text-[#05193C]">No readings found</p>
+            <p className="text-xs text-[#05193C]/60 mt-1 max-w-xs mx-auto">
               {dateFilter || slotFilter
                 ? 'No glucose readings match the active filter criteria.'
                 : 'You have not logged any readings yet.'}
@@ -284,7 +298,7 @@ export default function ReadingsPage() {
             {(dateFilter || slotFilter) && (
               <button
                 onClick={handleClearFilters}
-                className="mt-3 text-xs font-bold text-brand-600 hover:text-brand-700"
+                className="mt-3 text-xs font-extrabold text-[#FA0C57] hover:underline"
               >
                 Clear all filters
               </button>
@@ -294,31 +308,31 @@ export default function ReadingsPage() {
 
         {/* Pagination Footer */}
         {pagination.total > 0 && (
-          <div className="p-4 bg-[#F8F9FE] border-t border-[#ECECFA] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#8E8EA9]">
+          <div className="p-4 bg-[#F8F9FC] border-t border-[#E8ECF4] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#05193C]/60">
             <div>
-              Showing <strong className="text-[#1A1940]">{startRecord}</strong> to{' '}
-              <strong className="text-[#1A1940]">{endRecord}</strong> of{' '}
-              <strong className="text-[#1A1940]">{pagination.total}</strong> readings
+              Showing <strong className="text-[#05193C]">{startRecord}</strong> to{' '}
+              <strong className="text-[#05193C]">{endRecord}</strong> of{' '}
+              <strong className="text-[#05193C]">{pagination.total}</strong> readings
             </div>
 
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => fetchReadings(pagination.page - 1)}
                 disabled={!pagination.hasPrevPage || loading}
-                className="p-2 rounded-xl border border-[#ECECFA] bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-xl border border-[#E8ECF4] bg-white hover:bg-[#FFF0F5] hover:text-[#FA0C57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 title="Previous page"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
 
-              <span className="font-extrabold text-[#1A1940] px-2">
+              <span className="font-extrabold text-[#05193C] px-2">
                 Page {pagination.page} of {pagination.totalPages}
               </span>
 
               <button
                 onClick={() => fetchReadings(pagination.page + 1)}
                 disabled={!pagination.hasNextPage || loading}
-                className="p-2 rounded-xl border border-[#ECECFA] bg-white hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-xl border border-[#E8ECF4] bg-white hover:bg-[#FFF0F5] hover:text-[#FA0C57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 title="Next page"
               >
                 <ChevronRight className="w-4 h-4" />

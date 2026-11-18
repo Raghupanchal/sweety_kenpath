@@ -38,7 +38,7 @@ describe('ReadingModal Form Validations (React Testing Library)', () => {
       />
     );
 
-    const submitBtn = screen.getByRole('button', { name: /Save Reading/i });
+    const submitBtn = screen.getByRole('button', { name: /Save (Glucose )?Reading/i });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
@@ -59,7 +59,7 @@ describe('ReadingModal Form Validations (React Testing Library)', () => {
     const valueInput = screen.getByPlaceholderText(/e.g. 110/i);
     fireEvent.change(valueInput, { target: { value: '30' } });
 
-    const submitBtn = screen.getByRole('button', { name: /Save Reading/i });
+    const submitBtn = screen.getByRole('button', { name: /Save (Glucose )?Reading/i });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
@@ -92,7 +92,7 @@ describe('ReadingModal Form Validations (React Testing Library)', () => {
     const valueInput = screen.getByPlaceholderText(/e.g. 110/i);
     fireEvent.change(valueInput, { target: { value: '115' } });
 
-    const submitBtn = screen.getByRole('button', { name: /Save Reading/i });
+    const submitBtn = screen.getByRole('button', { name: /Save (Glucose )?Reading/i });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {
@@ -120,7 +120,7 @@ describe('ReadingModal Form Validations (React Testing Library)', () => {
     const valueInput = screen.getByPlaceholderText(/e.g. 110/i);
     fireEvent.change(valueInput, { target: { value: '95' } });
 
-    const submitBtn = screen.getByRole('button', { name: /Save Reading/i });
+    const submitBtn = screen.getByRole('button', { name: /Save (Glucose )?Reading/i });
     fireEvent.click(submitBtn);
 
     await waitFor(() => {

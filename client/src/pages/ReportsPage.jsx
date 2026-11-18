@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Calendar,
   BarChart2,
   Clock,
   CalendarDays,
   RotateCcw,
+  LayoutGrid,
 } from 'lucide-react';
 import { getTodayString, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
@@ -50,42 +52,53 @@ export default function ReportsPage() {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-1">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-[#1A1940] tracking-tight">Clinical Reports</h1>
-          <p className="text-xs text-[#8E8EA9] mt-0.5">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-[#05193C] tracking-tight">Clinical Reports</h1>
+          <p className="text-xs text-[#05193C]/60 mt-0.5">
             Standard glycemic analytics: Daily, Month-to-date, and Previous full month
           </p>
         </div>
 
-        {/* Date Selector Control */}
-        <div className="flex items-center space-x-2.5 bg-white p-2 rounded-2xl border border-[#ECECFA] shadow-soft self-start md:self-auto">
-          <div className="flex items-center space-x-1.5 px-2 text-xs font-bold text-[#8E8EA9]">
-            <Calendar className="w-4 h-4 text-brand-500" />
-            <span>Date:</span>
+        <div className="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+          {/* Secondary Button: View Dashboard (#05193C text #FFFFFF) */}
+          <Link
+            to="/"
+            className="inline-flex items-center space-x-2 bg-[#05193C] hover:bg-[#0A2656] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-4 py-2 rounded-2xl shadow-soft transition-all"
+          >
+            <LayoutGrid className="w-4 h-4" />
+            <span>View Dashboard</span>
+          </Link>
+
+          {/* Date Selector Control */}
+          <div className="flex items-center space-x-2 bg-white p-1.5 rounded-2xl border border-[#E8ECF4] shadow-soft">
+            <div className="flex items-center space-x-1.5 px-2 text-xs font-bold text-[#05193C]/60">
+              <Calendar className="w-4 h-4 text-[#FA0C57]" />
+              <span>Date:</span>
+            </div>
+            <input
+              type="date"
+              max={todayStr}
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="px-3 py-1.5 bg-[#F8F9FC] border border-[#E8ECF4] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57]"
+            />
+            {selectedDate !== todayStr && (
+              <button
+                onClick={handleResetToToday}
+                className="px-2.5 py-1 text-xs text-[#FA0C57] bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] font-extrabold flex items-center space-x-1 rounded-xl transition-all"
+                title="Reset to today"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Today</span>
+              </button>
+            )}
           </div>
-          <input
-            type="date"
-            max={todayStr}
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-3 py-1.5 bg-[#F8F9FE] border border-[#ECECFA] rounded-xl text-xs font-bold text-[#1A1940] focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-          />
-          {selectedDate !== todayStr && (
-            <button
-              onClick={handleResetToToday}
-              className="p-1.5 text-xs text-brand-600 hover:text-brand-700 font-bold flex items-center space-x-1 hover:bg-brand-50 rounded-xl transition-colors"
-              title="Reset to today"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Today</span>
-            </button>
-          )}
         </div>
       </div>
 
       {loading ? (
         <div className="py-24 text-center">
-          <div className="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-xs text-[#8E8EA9] font-bold">Calculating clinical metrics...</p>
+          <div className="w-10 h-10 border-4 border-[#FA0C57] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <p className="text-xs text-[#05193C]/60 font-bold">Calculating clinical metrics...</p>
         </div>
       ) : (
         <>
@@ -101,7 +114,7 @@ export default function ReportsPage() {
               extraContent={
                 dailyReadings.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">
                       Slots Breakdown
                     </p>
                     <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
@@ -110,11 +123,11 @@ export default function ReportsPage() {
                         return (
                           <div
                             key={r.id}
-                            className="p-2.5 rounded-2xl bg-[#F8F9FE] border border-[#ECECFA] flex items-center justify-between text-xs"
+                            className="p-2.5 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between text-xs"
                           >
-                            <span className="font-bold text-[#1A1940]">{r.slot}</span>
+                            <span className="font-bold text-[#05193C]">{r.slot}</span>
                             <div className="flex items-center space-x-2">
-                              <span className="font-extrabold text-[#1A1940]">{r.value} mg/dl</span>
+                              <span className="font-extrabold text-[#05193C]">{r.value} mg/dl</span>
                               <span
                                 className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${cat.badgeColor}`}
                               >
