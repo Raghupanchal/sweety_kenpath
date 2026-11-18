@@ -1,45 +1,53 @@
 /**
- * Clinical glucose classification utility
+ * Clinical glucose classification utility with soft modern health aesthetic
  */
 export function getGlucoseCategory(value) {
   const val = Number(value);
-  if (isNaN(val)) return { label: 'Unknown', color: 'bg-gray-100 text-gray-700 border-gray-300' };
+  if (isNaN(val)) return { label: 'Unknown', color: 'bg-slate-100 text-slate-700', badgeColor: 'bg-slate-100 text-slate-700', dotColor: 'bg-slate-400' };
 
   if (val < 70) {
     return {
       label: 'Low (Hypo)',
-      color: 'bg-amber-50 text-amber-800 border-amber-300',
-      badgeColor: 'bg-amber-100 text-amber-800',
-      dotColor: 'bg-amber-500',
-      description: 'Below normal target (under 70 mg/dl)',
+      color: 'bg-amber-50 text-amber-700 border-amber-200',
+      badgeColor: 'bg-[#FFF8E6] text-[#D97706] border border-[#FDE68A]/60',
+      dotColor: 'bg-[#F59E0B]',
+      chipBg: 'bg-[#FFF8E6]',
+      textColor: 'text-[#D97706]',
+      description: 'Below target (under 70 mg/dl)',
     };
   }
 
   if (val <= 140) {
     return {
-      label: 'Normal',
-      color: 'bg-emerald-50 text-emerald-800 border-emerald-300',
-      badgeColor: 'bg-emerald-100 text-emerald-800',
-      dotColor: 'bg-emerald-500',
-      description: 'Ideal target range (70–140 mg/dl)',
+      label: 'In Target',
+      color: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      badgeColor: 'bg-[#EDFCF2] text-[#059669] border border-[#A7F3D0]/60',
+      dotColor: 'bg-[#10B981]',
+      chipBg: 'bg-[#EDFCF2]',
+      textColor: 'text-[#059669]',
+      description: 'Ideal range (70–140 mg/dl)',
     };
   }
 
   if (val <= 180) {
     return {
       label: 'Elevated',
-      color: 'bg-orange-50 text-orange-800 border-orange-300',
-      badgeColor: 'bg-orange-100 text-orange-800',
-      dotColor: 'bg-orange-500',
+      color: 'bg-orange-50 text-orange-700 border-orange-200',
+      badgeColor: 'bg-[#FFF4ED] text-[#EA580C] border border-[#FDBA74]/60',
+      dotColor: 'bg-[#F97316]',
+      chipBg: 'bg-[#FFF4ED]',
+      textColor: 'text-[#EA580C]',
       description: 'Slightly elevated (141–180 mg/dl)',
     };
   }
 
   return {
     label: 'High (Hyper)',
-    color: 'bg-rose-50 text-rose-800 border-rose-300',
-    badgeColor: 'bg-rose-100 text-rose-800',
-    dotColor: 'bg-rose-500',
+    color: 'bg-rose-50 text-rose-700 border-rose-200',
+    badgeColor: 'bg-[#FFF1F2] text-[#E11D48] border border-[#FECDD3]/60',
+    dotColor: 'bg-[#EF4444]',
+    chipBg: 'bg-[#FFF1F2]',
+    textColor: 'text-[#E11D48]',
     description: 'High blood glucose (>180 mg/dl)',
   };
 }

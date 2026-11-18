@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
-  Activity,
-  PlusCircle,
-  Calendar,
-  CheckCircle2,
+  Droplets,
+  Plus,
   Clock,
   ArrowRight,
+  Sparkles,
   TrendingUp,
   BarChart2,
   Edit2,
   Trash2,
+  CheckCircle,
+  AlertCircle,
+  Calendar,
 } from 'lucide-react';
 import { SLOTS, getTodayString, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
@@ -27,7 +29,7 @@ export default function DashboardPage() {
   const [recentReadings, setRecentReadings] = useState([]);
   const [todayReadings, setTodayReadings] = useState([]);
 
-  // Modal states
+  // Modals
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInitialData, setModalInitialData] = useState(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -94,48 +96,103 @@ export default function DashboardPage() {
     return todayReadings.find((r) => r.slot === slotName);
   };
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Hero Welcome Banner */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-3xl p-6 sm:p-8 text-white shadow-lg shadow-emerald-700/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <div className="flex items-center space-x-2 text-emerald-100 text-xs font-semibold uppercase tracking-wider mb-1">
-            <Calendar className="w-3.5 h-3.5" />
-            <span>{formatDateDisplay(todayStr)}</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Hello, {user?.name.split(' ')[0]} 👋
-          </h1>
-          <p className="text-emerald-100/90 text-sm mt-1 max-w-xl">
-            You have logged <strong className="text-white font-bold">{todayReadings.length} of 4</strong> blood
-            glucose readings today. Consistency helps maintain ideal glycemic control.
-          </p>
-        </div>
+  // Latest reading calculation for Hero droplet
+  const latestReading = todayReadings.length > 0
+    ? todayReadings[todayReadings.length - 1]
+    : (recentReadings.length > 0 ? recentReadings[0] : null);
 
-        <button
-          onClick={() => {
-            setModalInitialData(null);
-            setIsModalOpen(true);
-          }}
-          disabled={todayReadings.length >= 4}
-          className="inline-flex items-center space-x-2 bg-white hover:bg-emerald-50 active:bg-emerald-100 text-emerald-800 font-bold px-5 py-3 rounded-2xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-        >
-          <PlusCircle className="w-5 h-5 text-emerald-600" />
-          <span>{todayReadings.length >= 4 ? 'All 4 Slots Logged' : 'Log New Reading'}</span>
-        </button>
+  const latestCat = latestReading ? getGlucoseCategory(latestReading.value) : null;
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-8 space-y-6 md:space-y-8 pb-24 md:pb-12">
+      {/* ================= HERO GLUCOSE MONITORING CARD (MATCHING REFERENCE UI) ================= */}
+      <div className="relative overflow-hidden bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-9 border border-[#ECECFA] shadow-soft">
+        {/* Soft background ambient gradient accents */}
+        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-brand-100/50 via-brand-50/30 to-transparent rounded-full blur-2xl pointer-events-none -mr-16 -mt-16"></div>
+
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
+          {/* Central Droplet & Status Graphic */}
+          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-7 text-center sm:text-left">
+            {/* Concentric Circle Droplet Motif */}
+            <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-brand-200/80 animate-[spin_40s_linear_infinite]"></div>
+              <div className="absolute inset-2.5 rounded-full bg-brand-50/70 border border-brand-100"></div>
+              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 text-white flex items-center justify-center shadow-soft-lg transform hover:scale-105 transition-transform">
+                <Droplets className="w-9 h-9 sm:w-10 sm:h-10 fill-white/20" />
+              </div>
+            </div>
+
+            {/* Glucose Level & Status */}
+            <div>
+              <div className="flex items-center justify-center sm:justify-start space-x-2 text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">
+                <Clock className="w-3.5 h-3.5 text-brand-500" />
+                <span>{latestReading ? `Latest: ${latestReading.slot}` : "Today's Status"}</span>
+              </div>
+
+              <div className="mt-1 flex items-baseline justify-center sm:justify-start space-x-2">
+                <span className="text-4xl sm:text-5xl font-extrabold text-[#1A1940] tracking-tight">
+                  {latestReading ? latestReading.value : '--'}
+                </span>
+                <span className="text-sm font-bold text-[#8E8EA9]">mg/dl</span>
+              </div>
+
+              {latestCat ? (
+                <div className="mt-2.5 flex items-center justify-center sm:justify-start">
+                  <span className={`inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold ${latestCat.badgeColor}`}>
+                    <span className={`w-2 h-2 rounded-full ${latestCat.dotColor}`}></span>
+                    <span>{latestCat.label}</span>
+                  </span>
+                </div>
+              ) : (
+                <p className="text-xs font-medium text-[#8E8EA9] mt-1">No readings logged yet today</p>
+              )}
+            </div>
+          </div>
+
+          {/* Right Action Button & Progress */}
+          <div className="w-full sm:w-auto flex flex-col items-center sm:items-end space-y-3">
+            <div className="text-center sm:text-right">
+              <span className="text-xs font-semibold text-[#8E8EA9]">Daily Target Progress</span>
+              <p className="text-sm font-extrabold text-[#1A1940]">
+                {todayReadings.length} of 4 Slots Logged
+              </p>
+              {/* Progress bar */}
+              <div className="w-48 h-2 bg-slate-100 rounded-full overflow-hidden mt-1.5 mx-auto sm:ml-auto">
+                <div
+                  className="h-full bg-gradient-to-r from-brand-600 to-brand-400 rounded-full transition-all duration-500"
+                  style={{ width: `${(todayReadings.length / 4) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setModalInitialData(null);
+                setIsModalOpen(true);
+              }}
+              disabled={todayReadings.length >= 4}
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 active:scale-95 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-soft transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Plus className="w-4 h-4 stroke-[3]" />
+              <span>{todayReadings.length >= 4 ? 'All 4 Slots Complete' : 'Log Blood Glucose'}</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* 4 Daily Slots Overview Cards */}
+      {/* ================= 4 MEASUREMENT SLOTS CARDS ================= */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
-            <Clock className="w-5 h-5 text-emerald-600" />
-            <span>Today's Measurement Slots</span>
-          </h2>
-          <span className="text-xs font-semibold text-slate-500">Max 4 readings / day</span>
+        <div className="flex items-center justify-between mb-3.5 px-1">
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-[#1A1940]">Today's Readings</h2>
+            <p className="text-xs text-[#8E8EA9]">4 clinical slots: fasting & post-meal</p>
+          </div>
+          <span className="text-[11px] font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-100">
+            {todayReadings.length}/4 Done
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
           {SLOTS.map((slotName) => {
             const reading = getSlotReading(slotName);
             const isRecorded = !!reading;
@@ -144,48 +201,48 @@ export default function DashboardPage() {
             return (
               <div
                 key={slotName}
-                className={`rounded-2xl p-5 border transition-all ${
+                className={`rounded-3xl p-5 border transition-all ${
                   isRecorded
-                    ? 'bg-white border-slate-200 shadow-sm hover:border-emerald-300'
-                    : 'bg-slate-50/70 border-dashed border-slate-200 hover:bg-slate-50'
+                    ? 'bg-white border-[#ECECFA] shadow-soft hover:border-brand-300'
+                    : 'bg-white/60 border-dashed border-[#D7D6FD]/80 hover:bg-white'
                 }`}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-slate-500 tracking-wide">{slotName}</span>
+                <div className="flex items-center justify-between mb-2.5">
+                  <span className="text-xs font-bold text-[#646383] truncate">{slotName}</span>
                   {isRecorded ? (
-                    <span className="p-1 text-emerald-600 bg-emerald-50 rounded-full">
-                      <CheckCircle2 className="w-4 h-4" />
+                    <span className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                      <CheckCircle className="w-4 h-4" />
                     </span>
                   ) : (
-                    <span className="text-[10px] font-semibold text-slate-400 bg-slate-200/60 px-2 py-0.5 rounded-full">
-                      Pending
+                    <span className="text-[10px] font-bold text-[#8E8EA9] bg-slate-100 px-2 py-0.5 rounded-full">
+                      Open
                     </span>
                   )}
                 </div>
 
                 {isRecorded ? (
                   <div>
-                    <div className="flex items-baseline space-x-1.5">
-                      <span className="text-3xl font-extrabold text-slate-900">{reading.value}</span>
-                      <span className="text-xs font-semibold text-slate-400">mg/dl</span>
+                    <div className="flex items-baseline space-x-1.5 my-1">
+                      <span className="text-3xl font-extrabold text-[#1A1940] tracking-tight">{reading.value}</span>
+                      <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
                     </div>
 
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className={`px-2 py-0.5 rounded-full text-[11px] font-bold ${category.badgeColor}`}>
+                    <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-100">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${category.badgeColor}`}>
                         {category.label}
                       </span>
                       <div className="flex items-center space-x-1">
                         <button
                           onClick={() => handleEditReading(reading)}
                           title="Edit reading"
-                          className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-slate-100 rounded-lg transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-colors"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDeletePrompt(reading)}
                           title="Delete reading"
-                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-slate-100 rounded-lg transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -193,13 +250,13 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 ) : (
-                  <div className="py-2">
-                    <p className="text-xs text-slate-400 mb-3">No reading recorded yet</p>
+                  <div className="pt-2">
+                    <p className="text-[11px] text-[#8E8EA9] mb-3">No entry recorded yet</p>
                     <button
                       onClick={() => handleOpenAddForSlot(slotName)}
-                      className="w-full py-2 px-3 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-700 text-xs font-semibold flex items-center justify-center space-x-1.5 transition-all shadow-sm"
+                      className="w-full py-2.5 px-3 rounded-2xl bg-brand-50 hover:bg-brand-100 border border-brand-200 text-brand-700 text-xs font-bold flex items-center justify-center space-x-1.5 transition-all shadow-sm active:scale-95"
                     >
-                      <PlusCircle className="w-3.5 h-3.5 text-emerald-600" />
+                      <Plus className="w-3.5 h-3.5 stroke-[3]" />
                       <span>Log Slot</span>
                     </button>
                   </div>
@@ -210,100 +267,94 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Reports Summary Snapshot */}
+      {/* ================= ANALYTICS SNAPSHOT TILES ================= */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center space-x-2">
-            <TrendingUp className="w-5 h-5 text-emerald-600" />
-            <span>Reports Snapshot</span>
-          </h2>
+        <div className="flex items-center justify-between mb-3.5 px-1">
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-[#1A1940]">Analytics Summary</h2>
+            <p className="text-xs text-[#8E8EA9]">Quick glimpse of glycemic averages</p>
+          </div>
           <Link
             to="/reports"
-            className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center space-x-1"
+            className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center space-x-1 group"
           >
-            <span>View Full Analytics</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>Full Reports</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* Today's Stats */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Daily (Today)</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Today's Daily */}
+          <div className="bg-white rounded-3xl p-5 border border-[#ECECFA] shadow-soft">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">Daily Average (Today)</span>
             {reportsData?.daily?.count > 0 ? (
               <div className="mt-2">
-                <div className="flex items-baseline space-x-1">
-                  <span className="text-3xl font-extrabold text-slate-900">
-                    {reportsData.daily.average?.toFixed(1)}
-                  </span>
-                  <span className="text-xs font-medium text-slate-400">mg/dl avg</span>
+                <div className="flex items-baseline space-x-1.5">
+                  <span className="text-3xl font-extrabold text-[#1A1940]">{reportsData.daily.average?.toFixed(1)}</span>
+                  <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#646383] pt-2.5 border-t border-slate-100">
                   <span>High: <strong>{reportsData.daily.highest}</strong></span>
                   <span>Low: <strong>{reportsData.daily.lowest}</strong></span>
-                  <span>Entries: <strong>{reportsData.daily.count}</strong></span>
+                  <span>Readings: <strong>{reportsData.daily.count}</strong></span>
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-400 mt-2">No entries logged today.</p>
+              <p className="text-xs text-[#8E8EA9] mt-2">No entries logged today.</p>
             )}
           </div>
 
-          {/* Month-to-date Stats */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">Month-to-Date</span>
+          {/* Month to Date */}
+          <div className="bg-white rounded-3xl p-5 border border-[#ECECFA] shadow-soft">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">Month-to-Date Avg</span>
             {reportsData?.monthToDate?.count > 0 ? (
               <div className="mt-2">
-                <div className="flex items-baseline space-x-1">
-                  <span className="text-3xl font-extrabold text-slate-900">
-                    {reportsData.monthToDate.average?.toFixed(1)}
-                  </span>
-                  <span className="text-xs font-medium text-slate-400">mg/dl avg</span>
+                <div className="flex items-baseline space-x-1.5">
+                  <span className="text-3xl font-extrabold text-[#1A1940]">{reportsData.monthToDate.average?.toFixed(1)}</span>
+                  <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#646383] pt-2.5 border-t border-slate-100">
                   <span>High: <strong>{reportsData.monthToDate.highest}</strong></span>
                   <span>Low: <strong>{reportsData.monthToDate.lowest}</strong></span>
-                  <span>Entries: <strong>{reportsData.monthToDate.count}</strong></span>
+                  <span>Readings: <strong>{reportsData.monthToDate.count}</strong></span>
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-400 mt-2">No entries this month yet.</p>
+              <p className="text-xs text-[#8E8EA9] mt-2">No entries this month yet.</p>
             )}
           </div>
 
-          {/* Previous Month Stats */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+          {/* Previous Month */}
+          <div className="bg-white rounded-3xl p-5 border border-[#ECECFA] shadow-soft">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8E8EA9]">
               {reportsData?.monthly?.monthLabel || 'Previous Month'}
             </span>
             {reportsData?.monthly?.count > 0 ? (
               <div className="mt-2">
-                <div className="flex items-baseline space-x-1">
-                  <span className="text-3xl font-extrabold text-slate-900">
-                    {reportsData.monthly.average?.toFixed(1)}
-                  </span>
-                  <span className="text-xs font-medium text-slate-400">mg/dl avg</span>
+                <div className="flex items-baseline space-x-1.5">
+                  <span className="text-3xl font-extrabold text-[#1A1940]">{reportsData.monthly.average?.toFixed(1)}</span>
+                  <span className="text-xs font-semibold text-[#8E8EA9]">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#646383] pt-2.5 border-t border-slate-100">
                   <span>High: <strong>{reportsData.monthly.highest}</strong></span>
                   <span>Low: <strong>{reportsData.monthly.lowest}</strong></span>
-                  <span>Entries: <strong>{reportsData.monthly.count}</strong></span>
+                  <span>Readings: <strong>{reportsData.monthly.count}</strong></span>
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-slate-400 mt-2">No entries in previous month.</p>
+              <p className="text-xs text-[#8E8EA9] mt-2">No entries in previous month.</p>
             )}
           </div>
         </div>
       </div>
 
-      {/* Recent Readings Table */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm">
+      {/* ================= RECENT READINGS LIST (RESPONSIVE TABLE + MOBILE CARDS) ================= */}
+      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#ECECFA] shadow-soft">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-bold text-slate-900">Recent Readings</h2>
+          <h2 className="text-base font-bold text-[#1A1940]">Recent Entries</h2>
           <Link
             to="/readings"
-            className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 flex items-center space-x-1"
+            className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center space-x-1"
           >
             <span>View All</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -311,58 +362,104 @@ export default function DashboardPage() {
         </div>
 
         {recentReadings.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-slate-100 text-xs font-semibold uppercase text-slate-400">
-                  <th className="pb-3 pl-2">Date</th>
-                  <th className="pb-3">Slot</th>
-                  <th className="pb-3">Value</th>
-                  <th className="pb-3">Classification</th>
-                  <th className="pb-3 pr-2 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {recentReadings.map((r) => {
-                  const cat = getGlucoseCategory(r.value);
-                  return (
-                    <tr key={r.id} className="hover:bg-slate-50/70 transition-colors">
-                      <td className="py-3.5 pl-2 font-semibold text-slate-800">
-                        {formatDateDisplay(r.reading_date)}
-                      </td>
-                      <td className="py-3.5 text-slate-600 font-medium">{r.slot}</td>
-                      <td className="py-3.5 font-bold text-slate-900">
-                        {r.value} <span className="text-xs text-slate-400 font-normal">mg/dl</span>
-                      </td>
-                      <td className="py-3.5">
-                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${cat.badgeColor}`}>
-                          {cat.label}
-                        </span>
-                      </td>
-                      <td className="py-3.5 pr-2 text-right space-x-1">
+          <div>
+            {/* Desktop Table View */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead>
+                  <tr className="border-b border-[#ECECFA] text-[11px] font-bold uppercase text-[#8E8EA9]">
+                    <th className="pb-3 pl-2">Date</th>
+                    <th className="pb-3">Slot</th>
+                    <th className="pb-3">Value</th>
+                    <th className="pb-3">Classification</th>
+                    <th className="pb-3 pr-2 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {recentReadings.map((r) => {
+                    const cat = getGlucoseCategory(r.value);
+                    return (
+                      <tr key={r.id} className="hover:bg-slate-50/70 transition-colors">
+                        <td className="py-3.5 pl-2 font-bold text-[#1A1940]">
+                          {formatDateDisplay(r.reading_date)}
+                        </td>
+                        <td className="py-3.5 text-[#646383] font-medium">{r.slot}</td>
+                        <td className="py-3.5 font-extrabold text-[#1A1940]">
+                          {r.value} <span className="text-xs text-[#8E8EA9] font-normal">mg/dl</span>
+                        </td>
+                        <td className="py-3.5">
+                          <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${cat.badgeColor}`}>
+                            {cat.label}
+                          </span>
+                        </td>
+                        <td className="py-3.5 pr-2 text-right space-x-1">
+                          <button
+                            onClick={() => handleEditReading(r)}
+                            className="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-colors"
+                            title="Edit"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDeletePrompt(r)}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Mobile Card View */}
+            <div className="sm:hidden space-y-2.5">
+              {recentReadings.map((r) => {
+                const cat = getGlucoseCategory(r.value);
+                return (
+                  <div
+                    key={r.id}
+                    className="p-3.5 rounded-2xl bg-[#F8F9FE] border border-[#ECECFA] flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="text-xs font-bold text-[#1A1940]">{r.slot}</p>
+                      <p className="text-[11px] text-[#8E8EA9]">{formatDateDisplay(r.reading_date)}</p>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <div className="text-right">
+                        <span className="text-base font-extrabold text-[#1A1940]">{r.value}</span>
+                        <span className="text-[10px] text-[#8E8EA9] ml-1">mg/dl</span>
+                        <div>
+                          <span className={`px-2 py-0.2 rounded-full text-[10px] font-bold ${cat.badgeColor}`}>
+                            {cat.label}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-1 pl-2 border-l border-slate-200">
                         <button
                           onClick={() => handleEditReading(r)}
-                          className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-slate-100 rounded-lg transition-colors"
-                          title="Edit"
+                          className="p-1.5 text-slate-400 hover:text-brand-600"
                         >
-                          <Edit2 className="w-4 h-4" />
+                          <Edit2 className="w-3.5 h-3.5" />
                         </button>
                         <button
                           onClick={() => handleDeletePrompt(r)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-slate-100 rounded-lg transition-colors"
-                          title="Delete"
+                          className="p-1.5 text-slate-400 hover:text-rose-600"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-3.5 h-3.5" />
                         </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         ) : (
-          <p className="text-xs text-slate-400 py-6 text-center">No readings found. Start by logging one!</p>
+          <p className="text-xs text-[#8E8EA9] py-6 text-center">No readings found. Start by logging one!</p>
         )}
       </div>
 

@@ -6,30 +6,30 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
   if (!isOpen || !reading) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
-        <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4">
-          <Trash2 className="w-6 h-6" />
+    <div className="fixed inset-0 z-50 bg-[#1A1940]/50 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-sm w-full p-6 border border-[#ECECFA] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
+        <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4 border border-rose-100">
+          <Trash2 className="w-6 h-6 stroke-[2.2]" />
         </div>
 
         <div className="text-center">
-          <h3 className="text-lg font-bold text-slate-900">Delete Glucose Reading?</h3>
-          <p className="text-xs text-slate-500 mt-1">
+          <h3 className="text-lg font-extrabold text-[#1A1940]">Delete Glucose Reading?</h3>
+          <p className="text-xs text-[#8E8EA9] mt-1">
             This action cannot be undone. Are you sure you want to remove this reading?
           </p>
 
-          <div className="my-4 p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-left text-xs space-y-1">
+          <div className="my-4 p-3.5 bg-[#F8F9FE] rounded-2xl border border-[#ECECFA] text-left text-xs space-y-1.5">
             <div className="flex justify-between">
-              <span className="text-slate-500">Date:</span>
-              <span className="font-semibold text-slate-800">{formatDateDisplay(reading.reading_date)}</span>
+              <span className="text-[#8E8EA9] font-medium">Date:</span>
+              <span className="font-bold text-[#1A1940]">{formatDateDisplay(reading.reading_date)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-500">Slot:</span>
-              <span className="font-semibold text-slate-800">{reading.slot}</span>
+              <span className="text-[#8E8EA9] font-medium">Slot:</span>
+              <span className="font-bold text-[#1A1940]">{reading.slot}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-slate-500">Value:</span>
-              <span className="font-bold text-rose-600">{reading.value} mg/dl</span>
+              <span className="text-[#8E8EA9] font-medium">Value:</span>
+              <span className="font-extrabold text-rose-600">{reading.value} mg/dl</span>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
             type="button"
             onClick={onClose}
             disabled={deleting}
-            className="w-1/2 py-2.5 px-4 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+            className="w-1/2 py-3 px-4 border border-[#ECECFA] bg-slate-50 hover:bg-slate-100 rounded-2xl text-xs font-bold text-[#646383] transition-colors"
           >
             Cancel
           </button>
@@ -47,7 +47,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
             type="button"
             onClick={onConfirm}
             disabled={deleting}
-            className="w-1/2 py-2.5 px-4 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white rounded-xl text-sm font-semibold shadow-sm shadow-rose-200 transition-all flex items-center justify-center space-x-1.5 disabled:opacity-50"
+            className="w-1/2 py-3 px-4 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white rounded-2xl text-xs font-bold shadow-soft transition-all flex items-center justify-center space-x-1.5 disabled:opacity-50"
           >
             {deleting ? (
               <>

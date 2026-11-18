@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -14,16 +14,17 @@ function AppLayout() {
   const [globalModalOpen, setGlobalModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-[#F8F9FE] flex flex-col selection:bg-brand-500 selection:text-white">
       <Navbar onOpenNewReading={() => setGlobalModalOpen(true)} />
-      <main className="flex-1 pb-16">
+      
+      <main className="flex-1">
         <Outlet />
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>Sweety – Patient Blood Glucose Monitoring System</span>
-          <span>Kenpath Assignment • Built with React, Node.js & PostgreSQL</span>
+      <footer className="border-t border-[#ECECFA] bg-white/60 py-6 text-center text-xs text-[#8E8EA9] hidden md:block">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span className="font-semibold">Sweety – Patient Blood Glucose Monitoring System</span>
+          <span className="text-[11px]">Kenpath Assignment • Built with React, Node.js & PostgreSQL</span>
         </div>
       </footer>
 
@@ -31,7 +32,7 @@ function AppLayout() {
         isOpen={globalModalOpen}
         onClose={() => setGlobalModalOpen(false)}
         onSuccess={() => {
-          // Trigger refresh event for active page
+          // Trigger refresh for active view
           window.location.reload();
         }}
       />
