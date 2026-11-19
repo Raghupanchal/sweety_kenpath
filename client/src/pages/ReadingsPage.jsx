@@ -23,8 +23,9 @@ export default function ReadingsPage() {
   const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
   const [loading, setLoading] = useState(true);
 
-  // Filters
-  const [dateFilter, setDateFilter] = useState('');
+  // Filters: Date Range (From & To) + Slot
+  const [startDateFilter, setStartDateFilter] = useState('');
+  const [endDateFilter, setEndDateFilter] = useState('');
   const [slotFilter, setSlotFilter] = useState('');
 
   // Modals
@@ -40,7 +41,8 @@ export default function ReadingsPage() {
       const params = new URLSearchParams();
       params.append('page', page);
       params.append('limit', 20);
-      if (dateFilter) params.append('date', dateFilter);
+      if (startDateFilter) params.append('startDate', startDateFilter);
+      if (endDateFilter) params.append('endDate', endDateFilter);
       if (slotFilter) params.append('slot', slotFilter);
 
       const res = await api.get(`/readings?${params.toString()}`);
@@ -55,10 +57,11 @@ export default function ReadingsPage() {
 
   useEffect(() => {
     fetchReadings(1);
-  }, [dateFilter, slotFilter]);
+  }, [startDateFilter, endDateFilter, slotFilter]);
 
   const handleClearFilters = () => {
-    setDateFilter('');
+    setStartDateFilter('');
+    setEndDateFilter('');
     setSlotFilter('');
   };
 
@@ -123,7 +126,7 @@ export default function ReadingsPage() {
         </div>
       </div>
 
-      {/* Filter Toolbar */}
+      {/* Filter Toolbar (Start Date -> End Date Range + Slot Selector) */}
       <div className="bg-white rounded-3xl p-4 sm:p-5 border border-[#EDE9FE] shadow-soft flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
           <div className="flex items-center space-x-1.5 text-xs font-bold text-[#05193C]/60 uppercase tracking-wider pr-1">
@@ -131,13 +134,25 @@ export default function ReadingsPage() {
             <span>Filter:</span>
           </div>
 
-          {/* Date Picker Filter */}
-          <div className="relative">
+          {/* From Date Picker */}
+          <div className="flex items-center space-x-1.5 bg-[#F8F7FF] px-3 py-1.5 rounded-xl border border-[#EDE9FE]">
+            <span className="text-[11px] font-bold text-[#05193C]/60">From:</span>
             <input
               type="date"
-              value={dateFilter}
-              onChange={(e) => setDateFilter(e.target.value)}
-              className="px-3 py-2 bg-[#F8F7FF] border border-[#EDE9FE] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3]"
+              value={startDateFilter}
+              onChange={(e) => setStartDateFilter(e.target.value)}
+              className="bg-transparent text-xs font-bold text-[#05193C] focus:outline-none cursor-pointer"
+            />
+          </div>
+
+          {/* To Date Picker */}
+          <div className="flex items-center space-x-1.5 bg-[#F8F7FF] px-3 py-1.5 rounded-xl border border-[#EDE9FE]">
+            <span className="text-[11px] font-bold text-[#05193C]/60">To:</span>
+            <input
+              type="date"
+              value={endDateFilter}
+              onChange={(e) => setEndDateFilter(e.target.value)}
+              className="bg-transparent text-xs font-bold text-[#05193C] focus:outline-none cursor-pointer"
             />
           </div>
 
@@ -146,7 +161,7 @@ export default function ReadingsPage() {
             <select
               value={slotFilter}
               onChange={(e) => setSlotFilter(e.target.value)}
-              className="px-3 py-2 bg-[#F8F7FF] border border-[#EDE9FE] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3]"
+              className="px-3 py-2 bg-[#F8F7FF] border border-[#EDE9FE] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] cursor-pointer"
             >
               <option value="">All Slots</option>
               {SLOTS.map((s) => (
@@ -157,7 +172,7 @@ export default function ReadingsPage() {
             </select>
           </div>
 
-          {(dateFilter || slotFilter) && (
+          {(startDateFilter || endDateFilter || slotFilter) && (
             <button
               onClick={handleClearFilters}
               className="inline-flex items-center space-x-1 text-xs text-[#6C5DD3] bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] font-bold px-3 py-1.5 rounded-xl transition-all"
@@ -291,11 +306,11 @@ export default function ReadingsPage() {
           <div className="py-16 text-center">
             <p className="text-sm font-bold text-[#05193C]">No readings found</p>
             <p className="text-xs text-[#05193C]/60 mt-1 max-w-xs mx-auto">
-              {dateFilter || slotFilter
+              {startDateFilter || endDateFilter || slotFilter
                 ? 'No glucose readings match the active filter criteria.'
                 : 'You have not logged any readings yet.'}
             </p>
-            {(dateFilter || slotFilter) && (
+            {(startDateFilter || endDateFilter || slotFilter) && (
               <button
                 onClick={handleClearFilters}
                 className="mt-3 text-xs font-extrabold text-[#6C5DD3] hover:underline"
