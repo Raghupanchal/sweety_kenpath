@@ -288,17 +288,17 @@ export default function LiveRoundClock({ onTriggerReminder }) {
 
       {/* Enhanced Custom Alert Setup Modal */}
       {alertModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#05193C]/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-5 sm:p-6 max-w-sm w-full border border-[#EDE9FE] shadow-soft-lg animate-in fade-in zoom-in-95">
+        <div className="fixed inset-0 z-50 bg-[#05193C]/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-3xl p-4 sm:p-5 max-w-xs sm:max-w-sm w-full border border-[#EDE9FE] shadow-soft-lg animate-in fade-in zoom-in-95 max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3.5 border-b border-[#EDE9FE]">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-[#F0EEFD] text-[#6C5DD3] flex items-center justify-center border border-[#DDD8FB]">
-                  <Bell className="w-4.5 h-4.5" />
+            <div className="flex items-center justify-between pb-2.5 border-b border-[#EDE9FE]">
+              <div className="flex items-center space-x-2">
+                <div className="w-8 h-8 rounded-xl bg-[#F0EEFD] text-[#6C5DD3] flex items-center justify-center border border-[#DDD8FB]">
+                  <Bell className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-extrabold text-[#05193C]">Set Glucose Alert</h3>
-                  <p className="text-[10px] text-[#05193C]/50">Choose any time or quick interval</p>
+                  <h3 className="text-xs sm:text-sm font-extrabold text-[#05193C]">Set Glucose Alert</h3>
+                  <p className="text-[10px] text-[#05193C]/50">Capillary test reminder</p>
                 </div>
               </div>
               <button
@@ -309,30 +309,28 @@ export default function LiveRoundClock({ onTriggerReminder }) {
               </button>
             </div>
 
-            <div className="py-4 space-y-4">
+            <div className="py-2.5 space-y-2.5">
               {/* 1. Custom Exact Time Picker */}
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center justify-between">
-                  <span>Exact Alert Time</span>
-                  <span className="text-[10px] font-semibold text-[#6C5DD3]">Set anytime</span>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1 flex items-center justify-between">
+                  <span>Exact Time</span>
+                  <span className="text-[10px] font-semibold text-[#6C5DD3]">Custom</span>
                 </label>
-                <div className="relative">
-                  <input
-                    type="time"
-                    value={customTime}
-                    onChange={(e) => setCustomTime(e.target.value)}
-                    required
-                    className="w-full px-4 py-2.5 bg-[#F8F7FF] border border-[#DDD8FB] rounded-2xl text-base font-extrabold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] transition-all"
-                  />
-                </div>
+                <input
+                  type="time"
+                  value={customTime}
+                  onChange={(e) => setCustomTime(e.target.value)}
+                  required
+                  className="w-full px-3 py-1.5 bg-[#F8F7FF] border border-[#DDD8FB] rounded-xl text-sm font-extrabold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] transition-all"
+                />
               </div>
 
               {/* 2. Quick One-Click Add Presets */}
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5">
-                  Or Quick Preset Interval:
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1">
+                  Quick Intervals:
                 </label>
-                <div className="grid grid-cols-4 gap-1.5">
+                <div className="grid grid-cols-4 gap-1">
                   {[
                     { label: '+15m', mins: 15 },
                     { label: '+30m', mins: 30 },
@@ -343,7 +341,7 @@ export default function LiveRoundClock({ onTriggerReminder }) {
                       type="button"
                       key={preset.mins}
                       onClick={() => handleQuickPreset(preset.mins)}
-                      className="py-1.5 px-2 rounded-xl border border-[#DDD8FB] bg-[#F8F7FF] hover:bg-[#F0EEFD] text-[#05193C] text-xs font-extrabold text-center transition-all active:scale-95"
+                      className="py-1 px-1.5 rounded-lg border border-[#DDD8FB] bg-[#F8F7FF] hover:bg-[#F0EEFD] text-[#05193C] text-[11px] font-bold text-center transition-all active:scale-95"
                     >
                       {preset.label}
                     </button>
@@ -353,16 +351,16 @@ export default function LiveRoundClock({ onTriggerReminder }) {
 
               {/* 3. Measurement Slot Selection */}
               <div>
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5">
-                  Target Glucose Slot:
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1">
+                  Target Slot:
                 </label>
-                <div className="grid grid-cols-2 gap-1.5">
+                <div className="grid grid-cols-2 gap-1">
                   {SLOTS.map((s) => (
                     <button
                       type="button"
                       key={s}
                       onClick={() => setSelectedSlot(s)}
-                      className={`py-2 px-2.5 rounded-xl text-[11px] font-extrabold text-center border transition-all truncate ${
+                      className={`py-1.5 px-2 rounded-lg text-[10px] font-extrabold text-center border transition-all truncate ${
                         selectedSlot === s
                           ? 'bg-[#6C5DD3] text-white border-[#6C5DD3] shadow-sm'
                           : 'bg-[#F8F7FF] text-[#05193C] border-[#DDD8FB] hover:bg-[#F0EEFD]'
@@ -375,43 +373,41 @@ export default function LiveRoundClock({ onTriggerReminder }) {
               </div>
 
               {/* 4. Live Summary Card */}
-              <div className="p-3 bg-[#F8F7FF] border border-[#DDD8FB] rounded-2xl text-xs space-y-1">
+              <div className="p-2 bg-[#F8F7FF] border border-[#DDD8FB] rounded-xl text-[11px] space-y-0.5">
                 <div className="flex items-center justify-between text-[#05193C]/70">
-                  <span>Scheduled For:</span>
-                  <strong className="text-sm font-extrabold text-[#05193C]">
+                  <span>Scheduled:</span>
+                  <strong className="text-xs font-extrabold text-[#05193C]">
                     {targetDateObj
                       ? targetDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                       : '--'}
                   </strong>
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-[#05193C]/60">
-                  <span>Slot Window:</span>
+                <div className="flex items-center justify-between text-[10px] text-[#05193C]/60">
+                  <span>Slot:</span>
                   <span className="font-bold text-[#6C5DD3]">{selectedSlot}</span>
                 </div>
-                <div className="text-[10px] text-emerald-600 font-semibold pt-0.5">
-                  ⏰ Triggers in {minutesUntilAlert} minutes
+                <div className="text-[10px] text-emerald-600 font-semibold">
+                  ⏰ Triggers in {minutesUntilAlert} mins
                 </div>
               </div>
             </div>
 
             {/* Modal Actions */}
             <div className="flex items-center space-x-2 pt-2 border-t border-[#EDE9FE]">
-              {/* Light Button: Cancel */}
               <button
                 type="button"
                 onClick={() => setAlertModalOpen(false)}
-                className="w-1/2 py-2.5 rounded-2xl border border-[#DDD8FB] bg-[#F0EEFD] text-[#6C5DD3] text-xs font-extrabold hover:bg-[#E4E0FD] transition-all"
+                className="w-1/2 py-2 rounded-xl border border-[#DDD8FB] bg-[#F0EEFD] text-[#6C5DD3] text-xs font-bold hover:bg-[#E4E0FD] transition-all"
               >
                 Cancel
               </button>
-              {/* Primary Button: Save Alert */}
               <button
                 type="button"
                 onClick={handleSaveCustomAlert}
-                className="w-1/2 py-2.5 rounded-2xl bg-[#6C5DD3] text-white text-xs font-extrabold hover:bg-[#5B4DC7] shadow-sm flex items-center justify-center space-x-1.5 transition-all active:scale-95"
+                className="w-1/2 py-2 rounded-xl bg-[#6C5DD3] text-white text-xs font-bold hover:bg-[#5B4DC7] shadow-sm flex items-center justify-center space-x-1 transition-all active:scale-95"
               >
                 <Check className="w-3.5 h-3.5 stroke-[3]" />
-                <span>Save Alert</span>
+                <span>Save</span>
               </button>
             </div>
           </div>

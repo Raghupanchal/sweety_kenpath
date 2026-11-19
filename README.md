@@ -162,7 +162,6 @@ A pre-populated account is ready to use after running `npm run seed`:
 
 - **Email**: `demo@sweety.app`
 - **Password**: `Password123!`
-- *(A "Use Demo Account" one-click button is also available on the Login page)*
 
 Demo data includes:
 - 3 readings for today (`Morning (fasting)`, `After breakfast`, `After lunch`), leaving `After dinner` open to test adding the 4th reading.

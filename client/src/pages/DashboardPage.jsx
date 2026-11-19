@@ -487,31 +487,31 @@ export default function DashboardPage() {
 
       {/* Glucose Alert Reminder Trigger Popup */}
       {activeReminderPopup && (
-        <div className="fixed inset-0 z-50 bg-[#05193C]/50 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-sm w-full border border-[#DDD8FB] shadow-soft-lg animate-in fade-in zoom-in-95 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-[#F0EEFD] border border-[#DDD8FB] text-[#6C5DD3] flex items-center justify-center mx-auto mb-3 shadow-soft">
-              <BellRing className="w-7 h-7 animate-bounce" />
+        <div className="fixed inset-0 z-50 bg-[#05193C]/50 backdrop-blur-sm flex items-center justify-center p-3">
+          <div className="bg-white rounded-2xl p-4 sm:p-5 max-w-xs sm:max-w-sm w-full border border-[#DDD8FB] shadow-soft-lg animate-in fade-in zoom-in-95 text-center">
+            <div className="w-10 h-10 rounded-xl bg-[#F0EEFD] border border-[#DDD8FB] text-[#6C5DD3] flex items-center justify-center mx-auto mb-2.5 shadow-soft">
+              <BellRing className="w-5 h-5 animate-bounce" />
             </div>
-            <h3 className="text-lg font-extrabold text-[#05193C]">Time to Check Glucose!</h3>
+            <h3 className="text-base font-extrabold text-[#05193C]">Time to Check Glucose!</h3>
             <p className="text-xs text-[#05193C]/70 mt-1">
               Your scheduled reminder for <strong className="text-[#6C5DD3]">{activeReminderPopup.slot}</strong> is due now.
             </p>
 
-            <div className="mt-5 space-y-2">
+            <div className="mt-4 space-y-2">
               <button
                 onClick={() => {
                   const slotName = activeReminderPopup.slot;
                   setActiveReminderPopup(null);
                   handleOpenAddForSlot(slotName);
                 }}
-                className="w-full py-3 px-4 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white rounded-2xl text-xs font-extrabold shadow-sm transition-all flex items-center justify-center space-x-2"
+                className="w-full py-2.5 px-3 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white rounded-xl text-xs font-extrabold shadow-sm transition-all flex items-center justify-center space-x-1.5"
               >
-                <Plus className="w-4 h-4 stroke-[3]" />
+                <Plus className="w-3.5 h-3.5 stroke-[3]" />
                 <span>Log {activeReminderPopup.slot} Now</span>
               </button>
               <button
                 onClick={() => setActiveReminderPopup(null)}
-                className="w-full py-2.5 px-4 bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] rounded-2xl text-xs font-extrabold transition-all"
+                className="w-full py-2 px-3 bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] rounded-xl text-xs font-extrabold transition-all"
               >
                 Dismiss
               </button>
