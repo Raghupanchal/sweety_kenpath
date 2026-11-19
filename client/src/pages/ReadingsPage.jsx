@@ -13,12 +13,13 @@ import {
   Clock,
   LayoutGrid,
 } from 'lucide-react';
-import { SLOTS, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
+import { SLOTS, getTodayString, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
 import ReadingModal from '../components/ReadingModal';
 import DeleteModal from '../components/DeleteModal';
 
 export default function ReadingsPage() {
+  const todayStr = getTodayString();
   const [readings, setReadings] = useState([]);
   const [pagination, setPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
   const [loading, setLoading] = useState(true);
@@ -139,8 +140,16 @@ export default function ReadingsPage() {
             <span className="text-[11px] font-bold text-[#05193C]/60">From:</span>
             <input
               type="date"
+              max={endDateFilter || todayStr}
               value={startDateFilter}
-              onChange={(e) => setStartDateFilter(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val && val > todayStr) {
+                  setStartDateFilter(todayStr);
+                } else {
+                  setStartDateFilter(val);
+                }
+              }}
               className="bg-transparent text-xs font-bold text-[#05193C] focus:outline-none cursor-pointer"
             />
           </div>
@@ -150,8 +159,17 @@ export default function ReadingsPage() {
             <span className="text-[11px] font-bold text-[#05193C]/60">To:</span>
             <input
               type="date"
+              min={startDateFilter || undefined}
+              max={todayStr}
               value={endDateFilter}
-              onChange={(e) => setEndDateFilter(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val && val > todayStr) {
+                  setEndDateFilter(todayStr);
+                } else {
+                  setEndDateFilter(val);
+                }
+              }}
               className="bg-transparent text-xs font-bold text-[#05193C] focus:outline-none cursor-pointer"
             />
           </div>
