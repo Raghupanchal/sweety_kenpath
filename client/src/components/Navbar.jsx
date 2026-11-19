@@ -7,15 +7,17 @@ import {
   BarChart2,
   LogOut,
   Plus,
+  HeartPulse,
 } from 'lucide-react';
-import { getTodayString, formatDateDisplay } from '../utils/glucoseHelpers';
+import { getTodayString } from '../utils/glucoseHelpers';
+import PatientProfileModal from './PatientProfileModal';
 
 export default function Navbar({ onOpenNewReading }) {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [profileOpen, setProfileOpen] = useState(false);
-  const todayStr = getTodayString();
+  const [medicalModalOpen, setMedicalModalOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -101,20 +103,35 @@ export default function Navbar({ onOpenNewReading }) {
                   </div>
                   <div className="flex flex-col pr-1">
                     <span className="text-xs font-bold text-[#05193C] max-w-[110px] truncate leading-tight">
-                      {user?.name}
+                      {user?.name || 'Alex Johnson'}
                     </span>
-                    <span className="text-[10px] font-semibold text-[#05193C]/50 leading-tight">
-                      Patient
+                    <span className="text-[10px] font-semibold text-[#6C5DD3] leading-tight">
+                      29 y/o • Type 1
                     </span>
                   </div>
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-soft-lg border border-[#EDE9FE] p-2 py-2.5 z-50 animate-in fade-in zoom-in-95">
-                    <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                      <p className="text-xs font-bold text-[#05193C] truncate">{user?.name}</p>
-                      <p className="text-[11px] text-slate-400 truncate">{user?.email}</p>
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-3xl shadow-soft-lg border border-[#EDE9FE] p-3 z-50 animate-in fade-in zoom-in-95">
+                    <div className="px-3 py-2 border-b border-[#EDE9FE] mb-2">
+                      <p className="text-xs font-extrabold text-[#05193C] truncate">{user?.name || 'Alex Johnson'}</p>
+                      <p className="text-[11px] text-[#05193C]/50 truncate">{user?.email || 'patient@sweety.app'}</p>
+                      <div className="mt-1.5 inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#F0EEFD] text-[#6C5DD3] text-[10px] font-bold border border-[#DDD8FB]">
+                        <span>Type 1 Diabetes • MRN-94821</span>
+                      </div>
                     </div>
+
+                    <button
+                      onClick={() => {
+                        setProfileOpen(false);
+                        setMedicalModalOpen(true);
+                      }}
+                      className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-bold text-[#05193C] hover:bg-[#F0EEFD] hover:text-[#6C5DD3] transition-colors mb-1"
+                    >
+                      <HeartPulse className="w-4 h-4 text-[#6C5DD3]" />
+                      <span>Medical Profile Details</span>
+                    </button>
+
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center space-x-2.5 px-3 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
@@ -145,11 +162,15 @@ export default function Navbar({ onOpenNewReading }) {
             </span>
           </Link>
 
-          {/* Right Side: Patient Avatar & Logout */}
+          {/* Right Side: Patient Avatar & Actions */}
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-xl bg-[#F0EEFD] text-[#6C5DD3] font-extrabold text-xs flex items-center justify-center border border-[#DDD8FB]">
+            <button
+              onClick={() => setMedicalModalOpen(true)}
+              className="w-8 h-8 rounded-xl bg-[#F0EEFD] text-[#6C5DD3] font-extrabold text-xs flex items-center justify-center border border-[#DDD8FB]"
+              title="View Medical Profile"
+            >
               {getInitials(user?.name)}
-            </div>
+            </button>
             <button
               onClick={handleLogout}
               className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
@@ -215,6 +236,12 @@ export default function Navbar({ onOpenNewReading }) {
           </Link>
         </div>
       </nav>
+
+      {/* Patient Medical Profile Modal */}
+      <PatientProfileModal
+        isOpen={medicalModalOpen}
+        onClose={() => setMedicalModalOpen(false)}
+      />
     </>
   );
 }

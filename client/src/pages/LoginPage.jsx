@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Mail, Lock, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
+import { Mail, Lock, ArrowRight, AlertCircle, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -11,12 +11,6 @@ export default function LoginPage() {
 
   const { login } = useAuth();
   const navigate = useNavigate();
-
-  const handleFillDemo = () => {
-    setEmail('demo@sweety.app');
-    setPassword('Password123!');
-    setError(null);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,27 +52,22 @@ export default function LoginPage() {
           <span className="text-[10px] font-extrabold text-[#05193C]/60 tracking-widest uppercase">
             Blood Glucose Tracker
           </span>
-          <p className="text-xs font-medium text-[#05193C]/60 mt-2">Smart, simplified daily blood glucose monitoring</p>
+          <p className="text-xs font-medium text-[#05193C]/60 mt-2">Patient Health & Glucose Management Portal</p>
         </div>
 
         {/* Card */}
         <div className="bg-white/95 backdrop-blur-xl rounded-3xl sm:rounded-4xl p-6 sm:p-8 shadow-soft-lg border border-white/80">
+          <div className="mb-6">
+            <h2 className="text-lg font-extrabold text-[#05193C]">Sign In</h2>
+            <p className="text-xs text-[#05193C]/60 mt-0.5">Enter your patient credentials to access your daily log</p>
+          </div>
+
           {error && (
             <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200/80 rounded-2xl flex items-start space-x-2.5 text-rose-800 text-xs font-semibold">
               <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-600 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
-
-          {/* Quick Demo Credentials Autofill Pill */}
-          <button
-            type="button"
-            onClick={handleFillDemo}
-            className="w-full mb-5 py-2.5 px-3 rounded-2xl bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] text-xs font-bold flex items-center justify-center space-x-2 transition-all active:scale-95 shadow-sm"
-          >
-            <Sparkles className="w-4 h-4 text-[#6C5DD3]" />
-            <span>Use Demo Account (demo@sweety.app)</span>
-          </button>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -88,7 +77,7 @@ export default function LoginPage() {
               </label>
               <input
                 type="email"
-                placeholder="name@example.com"
+                placeholder="patient@sweety.app"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -128,14 +117,17 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-slate-100 text-center">
-            <p className="text-xs text-[#05193C]/60">
-              Don't have an account yet?{' '}
-              <Link to="/register" className="font-extrabold text-[#6C5DD3] hover:underline">
-                Register here
-              </Link>
-            </p>
+          <div className="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between text-xs text-[#05193C]/60">
+            <span>New patient?</span>
+            <Link to="/register" className="font-extrabold text-[#6C5DD3] hover:underline">
+              Create an account
+            </Link>
           </div>
+        </div>
+
+        <div className="mt-4 flex items-center justify-center space-x-1.5 text-[11px] font-semibold text-[#05193C]/50">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#6C5DD3]" />
+          <span>HIPAA-Compliant Patient Data Isolation</span>
         </div>
       </div>
     </div>

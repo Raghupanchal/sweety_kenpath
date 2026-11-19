@@ -13,12 +13,14 @@ import {
   CheckCircle,
   Calendar,
   BellRing,
+  HeartPulse,
 } from 'lucide-react';
 import { SLOTS, getTodayString, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
 import ReadingModal from '../components/ReadingModal';
 import DeleteModal from '../components/DeleteModal';
 import LiveRoundClock from '../components/LiveRoundClock';
+import PatientProfileModal from '../components/PatientProfileModal';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -36,6 +38,7 @@ export default function DashboardPage() {
   const [readingToDelete, setReadingToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [activeReminderPopup, setActiveReminderPopup] = useState(null);
+  const [isPatientModalOpen, setIsPatientModalOpen] = useState(false);
 
   const handleTriggerReminder = (alertData) => {
     setActiveReminderPopup(alertData);
@@ -109,6 +112,35 @@ export default function DashboardPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-8 space-y-6 md:space-y-8 pb-24 md:pb-12">
+      {/* ================= PATIENT CLINICAL IDENTIFICATION BANNER ================= */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 bg-white rounded-3xl border border-[#EDE9FE] shadow-soft">
+        <div className="flex items-center space-x-3.5">
+          <div className="w-11 h-11 rounded-2xl bg-[#F0EEFD] text-[#6C5DD3] font-extrabold text-sm flex items-center justify-center border border-[#DDD8FB] shadow-sm">
+            {user?.name ? user.name.slice(0, 2).toUpperCase() : 'AJ'}
+          </div>
+          <div>
+            <div className="flex items-center space-x-2">
+              <h1 className="text-sm sm:text-base font-extrabold text-[#05193C]">
+                {user?.name || 'Alex Johnson'}, <span className="font-semibold text-[#05193C]/70">29 y/o</span>
+              </h1>
+              <span className="text-[10px] font-extrabold bg-[#F0EEFD] text-[#6C5DD3] px-2.5 py-0.5 rounded-full border border-[#DDD8FB]">
+                Type 1 Diabetes
+              </span>
+            </div>
+            <p className="text-[11px] text-[#05193C]/50 font-medium mt-0.5">
+              Protocol: 4 Slots/Day • Target: 70–140 mg/dl • Attending: Dr. Sarah Mitchell, MD
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => setIsPatientModalOpen(true)}
+          className="self-start sm:self-auto inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] text-xs font-bold transition-all shadow-sm active:scale-95"
+        >
+          <HeartPulse className="w-3.5 h-3.5" />
+          <span>Patient Card</span>
+        </button>
+      </div>
+
       {/* ================= HERO GLUCOSE MONITORING CARD ================= */}
       <div className="relative overflow-hidden bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-9 border border-[#EDE9FE] shadow-soft">
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8">
@@ -483,6 +515,11 @@ export default function DashboardPage() {
         onConfirm={handleConfirmDelete}
         reading={readingToDelete}
         deleting={deleting}
+      />
+
+      <PatientProfileModal
+        isOpen={isPatientModalOpen}
+        onClose={() => setIsPatientModalOpen(false)}
       />
 
       {/* Glucose Alert Reminder Trigger Popup */}

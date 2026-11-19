@@ -3,7 +3,7 @@ const { pool, query } = require('../config/db');
 const { runMigrations } = require('./migrate');
 
 const DEMO_USER = {
-  name: 'Alex Johnson (Demo Patient)',
+  name: 'Alex Johnson',
   email: 'demo@sweety.app',
   password: 'Password123!',
 };
