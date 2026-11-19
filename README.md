@@ -4,9 +4,9 @@
 [![React](https://img.shields.io/badge/React-18-61dafb?style=flat-square&logo=react)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
-[![Tests](https://img.shields.io/badge/Tests-Jest%20%2B%20Vitest%20(27%20passing)-success?style=flat-square)](#running-tests)
+[![Tests](https://img.shields.io/badge/Tests-Jest%20%2B%20Vitest%20(27%20passing)-success?style=flat-square)](#-running-tests)
 
-A modern, responsive, and clinically accurate blood glucose tracking application built for diabetes patients. Patients record up to 4 readings per day across designated physiological slots and view instant analytical reports (Daily, Month-to-Date, and Previous Month) alongside interactive trend charts.
+A modern, responsive, and clinically accurate blood glucose tracking application built for diabetes patients. Patients record up to 4 readings per day across designated physiological slots, set customizable real-time alerts with browser notifications, and view instant analytical reports (Daily, Month-to-Date, and Previous Month) alongside interactive trend charts.
 
 ---
 
@@ -15,10 +15,10 @@ A modern, responsive, and clinically accurate blood glucose tracking application
 ### 1. Secure Authentication & User Isolation
 - **Sign up and Log in**: Register with name, email, and password.
 - **Bcrypt Password Hashing**: Passwords salted and hashed with 10 rounds; plaintext passwords never persist.
-- **Tenant Data Isolation**: Users can **only view, edit, or delete their own readings** (enforced in both middleware and SQL `WHERE user_id = $1` queries).
+- **Tenant Data Isolation**: Users can **only view, edit, or delete their own readings** (enforced in both JWT middleware and SQL `WHERE user_id = $1` queries).
 
 ### 2. Blood Glucose Readings CRUD & Validation
-Patients record readings across 4 predefined time slots:
+Patients record readings across 4 predefined physiological time slots:
 1. `Morning (fasting)`
 2. `After breakfast`
 3. `After lunch`
@@ -41,13 +41,15 @@ For any chosen date (defaults to today), three analytical scopes are computed:
 - **Friendly Empty States**: Graceful UI when no readings exist for any timeframe.
 
 ### 4. Completed Bonus Features 🌟
-- **Pagination**: `GET /api/readings?page=1&limit=20` with total count, total pages, and navigation.
+- **Pagination**: `GET /api/readings?page=1&limit=20` with total count, total pages, and navigation controls.
 - **Interactive Visual Charts**: Recharts line chart illustrating glucose curves with clinical reference thresholds (70 mg/dl hypo line, 140 mg/dl post-meal upper limit).
 - **Docker Compose**: Containerized multi-service setup (`docker-compose.yml`) running PostgreSQL, Express API, and React frontend.
 - **Frontend & Backend Automated Test Suites**:
   - **Backend**: 22 Jest + Supertest integration tests covering auth, CRUD, all 5 validation rules, DB constraints, and report calculations.
   - **Frontend**: 5 Vitest + React Testing Library unit tests verifying form validation and submission behavior.
-- **Realistic Demo Seed Script**: Pre-populates 60 days of clinical readings for instant review.
+- **Realistic Demo Seed Script**: Pre-populates 60 days of clinical readings + 3 readings for today (leaving 1 open slot for testing).
+- **Live Round Health Clock**: Real-time analog clock widget with custom reminder setup (`+15m`, `+30m`, `+1h`, `+2h`, or custom time) and Web Notifications API support.
+- **Dual-Mode Database Architecture**: Seamlessly connects to real PostgreSQL if running, or auto-falls back to an embedded in-memory database with persistent disk sync so reviewers can test without any DB configuration hassle!
 
 ---
 
@@ -56,7 +58,7 @@ For any chosen date (defaults to today), three analytical scopes are computed:
 ```
 ├── client/                     # React 18 + Vite + Tailwind CSS Frontend
 │   ├── src/
-│   │   ├── components/         # Navbar, ReadingModal, DeleteModal, ReportCard, TrendChart
+│   │   ├── components/         # Navbar, ReadingModal, DeleteModal, ReportCard, TrendChart, LiveRoundClock
 │   │   ├── context/            # AuthContext (JWT management & session sync)
 │   │   ├── pages/              # DashboardPage, ReadingsPage, ReportsPage, LoginPage, RegisterPage
 │   │   ├── services/           # Axios client with bearer token interceptors
@@ -67,7 +69,7 @@ For any chosen date (defaults to today), three analytical scopes are computed:
 │
 ├── server/                     # Node.js + Express.js REST API
 │   ├── src/
-│   │   ├── config/             # PostgreSQL connection pool with Date parser
+│   │   ├── config/             # PostgreSQL connection pool with Date parser & fallback engine
 │   │   ├── controllers/        # Auth, Readings CRUD, Reports calculations
 │   │   ├── db/                 # SQL schema, migration runner, seed script
 │   │   ├── middleware/         # JWT auth, validation engine, error handler
@@ -86,7 +88,7 @@ For any chosen date (defaults to today), three analytical scopes are computed:
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v18 or higher)
-- [PostgreSQL](https://www.postgresql.org/) (v14 or higher) or [Docker](https://www.docker.com/)
+- [PostgreSQL](https://www.postgresql.org/) (v14 or higher) or [Docker](https://www.docker.com/) *(Optional: app has zero-config embedded DB fallback)*
 
 ---
 
@@ -126,7 +128,7 @@ cp server/.env.example server/.env
 cp client/.env.example client/.env
 ```
 
-Ensure `server/.env` contains your PostgreSQL credentials:
+Default credentials in `server/.env`:
 ```env
 PORT=5000
 DB_HOST=localhost
@@ -137,6 +139,7 @@ DB_PASSWORD=your_postgres_password
 JWT_SECRET=super_secret_jwt_key
 CLIENT_ORIGIN=http://localhost:5173
 ```
+> **Note:** If you do not have local PostgreSQL running, Sweety will automatically detect this and switch to the embedded dual-mode database engine with JSON disk persistence.
 
 #### 3. Database Migration & Demo Seed
 Run the migration script to create tables, constraints, and indexes:
@@ -171,11 +174,11 @@ A pre-populated account is available after running `npm run seed`:
 
 - **Email**: `demo@sweety.app`
 - **Password**: `Password123!`
-- *(Click the **"Use Demo Account"** button on the Login page for 1-click login)*
+- *(Or click the **"Use Demo Account"** button on the Login page for 1-click login)*
 
 The demo account includes:
-- 3 readings for today (fasting, after breakfast, after lunch) allowing you to immediately test adding the 4th reading (`After dinner`).
-- Over 150 historical readings spanning the current month and the previous month for rich visual charts and reports.
+- **3 readings for today** (fasting, after breakfast, after lunch) allowing you to immediately test adding the 4th reading (`After dinner`).
+- **Over 150 historical readings** spanning the current month and the previous month for rich visual charts and reports.
 
 ---
 
@@ -193,7 +196,7 @@ npm run test:client   # Runs 5 React Testing Library form validation tests
 ```
 
 ### Test Coverage Highlights:
-- **Backend**:
+- **Backend (22 Passing Tests)**:
   - Registration with duplicate email rejection & bcrypt verification.
   - Login authentication & 401 unauthorized token verification.
   - Rule 1: Missing glucose value rejection.
@@ -203,8 +206,10 @@ npm run test:client   # Runs 5 React Testing Library form validation tests
   - Rule 5: Future date rejection.
   - User-specific data isolation (User B cannot view or delete User A's readings).
   - Accurate Daily, Month-to-Date, and Monthly report aggregations with exact 1-decimal rounding.
-- **Frontend**:
+- **Frontend (5 Passing Tests)**:
   - Immediate form validation errors rendering exact specification strings.
+  - Out-of-bounds boundary tests (30 and 650 mg/dl).
+  - Future date rejection.
   - Form submission calling API and triggering onSuccess callback.
 
 ---
