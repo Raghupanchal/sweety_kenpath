@@ -7,34 +7,43 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Logo Primary: Vibrant Medical Pink
+        // Primary: Soft Royal Periwinkle / Lavender Violet (from reference aesthetic)
         primary: {
-          DEFAULT: '#FA0C57',
-          hover: '#E00A4D',
-          active: '#C70843',
-          light: '#FFF0F5',
-          border: '#FFE0EB',
+          DEFAULT: '#6C5DD3',
+          hover: '#5B4DC7',
+          active: '#4E40B5',
+          light: '#F0EEFD',
+          border: '#DDD8FB',
         },
-        // Logo Secondary: Deep Midnight Navy
+        // Secondary: Deep Midnight Navy
         secondary: {
           DEFAULT: '#05193C',
           hover: '#0A2656',
           active: '#04132E',
           muted: '#1E2D4A',
-          subtle: '#E8ECF4',
+          subtle: '#E2E8F0',
         },
-        // Brand aliases for backward compatibility & easy utility use
+        // Refined soft lavender & periwinkle palette
         brand: {
-          50: '#FFF0F5',
-          100: '#FFE2EC',
-          200: '#FFC5D9',
-          300: '#FF96BB',
-          400: '#FA4F8A',
-          500: '#FA0C57',
-          600: '#E00A4D',
-          700: '#C70843',
-          800: '#A30636',
-          900: '#05193C',
+          50: '#F8F7FF',
+          100: '#F0EEFD',
+          200: '#E1DCFA',
+          300: '#C4BAF6',
+          400: '#9887EE',
+          500: '#6C5DD3',
+          600: '#5B4DC7',
+          700: '#4E40B5',
+          800: '#3F3398',
+          900: '#1E1B4B',
+        },
+        lavender: {
+          50: '#F7F6FE',
+          100: '#F0EEFD',
+          200: '#E4E0FD',
+          300: '#DDD8FB',
+          400: '#B8ACF6',
+          500: '#6C5DD3',
+          600: '#5B4DC7',
         },
         navy: {
           50: '#F0F3F9',
@@ -44,10 +53,10 @@ export default {
           900: '#05193C',
         },
         glucose: {
-          low: '#FFB800',       // <70 mg/dl (Hypoglycemia alert)
-          normal: '#10B981',    // 70 - 140 mg/dl (Normal target)
-          elevated: '#F97316',  // 141 - 180 mg/dl (Elevated)
-          high: '#FA0C57',      // >180 mg/dl (Hyperglycemia alert in brand pink)
+          low: '#F59E0B',       // <70 mg/dl (Hypoglycemia alert in warm amber)
+          normal: '#10B981',    // 70 - 140 mg/dl (In target emerald)
+          elevated: '#F97316',  // 141 - 180 mg/dl (Elevated orange)
+          high: '#EF4444',      // >180 mg/dl (Hyperglycemia coral red)
         }
       },
       borderRadius: {
@@ -56,10 +65,10 @@ export default {
         '4xl': '2.25rem',
       },
       boxShadow: {
-        'soft': '0 10px 30px -5px rgba(5, 25, 60, 0.06), 0 4px 12px -2px rgba(5, 25, 60, 0.03)',
-        'soft-lg': '0 20px 40px -10px rgba(5, 25, 60, 0.12), 0 8px 16px -4px rgba(5, 25, 60, 0.05)',
-        'primary-glow': '0 8px 25px rgba(250, 12, 87, 0.35)',
-        'secondary-glow': '0 8px 25px rgba(5, 25, 60, 0.35)',
+        'soft': '0 4px 20px -2px rgba(108, 93, 211, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03)',
+        'soft-lg': '0 12px 32px -4px rgba(108, 93, 211, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04)',
+        'primary-glow': '0 4px 16px 0 rgba(108, 93, 211, 0.28)',
+        'secondary-glow': '0 4px 14px 0 rgba(5, 25, 60, 0.2)',
       }
     },
   },

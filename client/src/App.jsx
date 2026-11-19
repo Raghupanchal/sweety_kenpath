@@ -14,17 +14,17 @@ function AppLayout() {
   const [globalModalOpen, setGlobalModalOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FE] flex flex-col selection:bg-brand-500 selection:text-white">
+    <div className="min-h-screen bg-[#F8F7FF] flex flex-col selection:bg-brand-500 selection:text-white">
       <Navbar onOpenNewReading={() => setGlobalModalOpen(true)} />
       
       <main className="flex-1">
         <Outlet />
       </main>
 
-      <footer className="border-t border-[#ECECFA] bg-white/60 py-6 text-center text-xs text-[#8E8EA9] hidden md:block">
+      <footer className="border-t border-[#EDE9FE] bg-white/70 backdrop-blur-md py-5 text-center text-xs text-[#05193C]/60 hidden md:block">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span className="font-semibold">Sweety – Patient Blood Glucose Monitoring System</span>
-          <span className="text-[11px]">Kenpath Assignment • Built with React, Node.js & PostgreSQL</span>
+          <span className="font-bold text-[#05193C]">Sweety – Blood Glucose Tracker</span>
+          <span className="text-[11px] font-medium text-[#05193C]/50">Smart, simplified daily blood glucose monitoring</span>
         </div>
       </footer>
 

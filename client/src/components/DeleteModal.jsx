@@ -7,7 +7,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
 
   return (
     <div className="fixed inset-0 z-50 bg-[#05193C]/50 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-sm w-full p-6 border border-[#E8ECF4] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
+      <div className="bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-sm w-full p-6 border border-[#EDE9FE] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
         <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4 border border-rose-100">
           <Trash2 className="w-6 h-6 stroke-[2.2]" />
         </div>
@@ -18,7 +18,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
             This action cannot be undone. Are you sure you want to remove this reading?
           </p>
 
-          <div className="my-4 p-3.5 bg-[#F8F9FC] rounded-2xl border border-[#E8ECF4] text-left text-xs space-y-1.5">
+          <div className="my-4 p-3.5 bg-[#F8F7FF] rounded-2xl border border-[#EDE9FE] text-left text-xs space-y-1.5">
             <div className="flex justify-between">
               <span className="text-[#05193C]/60 font-medium">Date:</span>
               <span className="font-bold text-[#05193C]">{formatDateDisplay(reading.reading_date)}</span>
@@ -29,7 +29,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
             </div>
             <div className="flex justify-between">
               <span className="text-[#05193C]/60 font-medium">Value:</span>
-              <span className="font-extrabold text-[#FA0C57]">{reading.value} mg/dl</span>
+              <span className="font-extrabold text-rose-600">{reading.value} mg/dl</span>
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default function DeleteModal({ isOpen, onClose, onConfirm, reading, delet
             type="button"
             onClick={onClose}
             disabled={deleting}
-            className="w-1/2 py-3 px-4 border border-[#FFE0EB] bg-[#FFF0F5] hover:bg-[#FFE2EC] rounded-2xl text-xs font-extrabold text-[#FA0C57] transition-all"
+            className="w-1/2 py-3 px-4 border border-[#DDD8FB] bg-[#F0EEFD] hover:bg-[#E4E0FD] rounded-2xl text-xs font-extrabold text-[#6C5DD3] transition-all"
           >
             Cancel
           </button>

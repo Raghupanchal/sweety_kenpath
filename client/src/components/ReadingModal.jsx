@@ -112,15 +112,15 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#05193C]/60 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4">
-      <div className="relative bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-md w-full p-6 sm:p-7 border border-[#E8ECF4] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
+      <div className="relative bg-white rounded-t-3xl sm:rounded-4xl shadow-soft-lg max-w-md w-full p-6 sm:p-7 border border-[#EDE9FE] animate-in fade-in slide-in-from-bottom-6 sm:zoom-in-95 duration-200">
         {/* Mobile Pull Indicator */}
-        <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-4 sm:hidden"></div>
+        <div className="w-12 h-1.5 bg-[#DDD8FB] rounded-full mx-auto mb-4 sm:hidden"></div>
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-[#E8ECF4]">
+        <div className="flex items-center justify-between pb-4 border-b border-[#EDE9FE]">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#FFF0F5] text-[#FA0C57] flex items-center justify-center border border-[#FFE0EB]">
-              <Droplets className="w-5 h-5 fill-[#FA0C57]/20" />
+            <div className="w-10 h-10 rounded-2xl bg-[#F0EEFD] text-[#6C5DD3] flex items-center justify-center border border-[#DDD8FB]">
+              <Droplets className="w-5 h-5 fill-[#6C5DD3]/20" />
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-extrabold text-[#05193C]">
@@ -131,7 +131,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-slate-100 transition-colors"
+            className="p-2 text-slate-400 hover:text-slate-600 rounded-xl hover:bg-[#F0EEFD] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -150,7 +150,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
           {/* Date Field */}
           <div>
             <label htmlFor="reading-date-input" className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center space-x-1.5">
-              <Calendar className="w-3.5 h-3.5 text-[#FA0C57]" />
+              <Calendar className="w-3.5 h-3.5 text-[#6C5DD3]" />
               <span>Date</span>
             </label>
             <input
@@ -163,8 +163,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                 setDate(e.target.value);
                 setFieldErrors((prev) => ({ ...prev, date: null }));
               }}
-              className={`w-full px-4 py-3 bg-[#F8F9FC] border rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 transition-all ${
-                fieldErrors.date ? 'border-rose-400 bg-rose-50/40' : 'border-[#E8ECF4] focus:border-[#FA0C57]'
+              className={`w-full px-4 py-3 bg-[#F8F7FF] border rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 transition-all ${
+                fieldErrors.date ? 'border-rose-400 bg-rose-50/40' : 'border-[#EDE9FE] focus:border-[#6C5DD3]'
               }`}
             />
             {fieldErrors.date && (
@@ -179,7 +179,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
           <div>
             <label htmlFor="reading-slot-select" className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center justify-between">
               <span className="flex items-center space-x-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <Clock className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>Measurement Slot</span>
               </span>
               <span className="text-[10px] text-[#05193C]/50 font-medium">4 daily slots</span>
@@ -194,8 +194,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                 setSlot(e.target.value);
                 setFieldErrors((prev) => ({ ...prev, slot: null }));
               }}
-              className={`w-full px-4 py-3 bg-[#F8F9FC] border rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 transition-all ${
-                fieldErrors.slot ? 'border-rose-400 bg-rose-50/40' : 'border-[#E8ECF4] focus:border-[#FA0C57]'
+              className={`w-full px-4 py-3 bg-[#F8F7FF] border rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 transition-all ${
+                fieldErrors.slot ? 'border-rose-400 bg-rose-50/40' : 'border-[#EDE9FE] focus:border-[#6C5DD3]'
               }`}
             >
               {SLOTS.map((s) => (
@@ -205,7 +205,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
               ))}
             </select>
 
-            {/* Visual Chip selector using Light Button / Primary Button theme */}
+            {/* Visual Chip selector */}
             <div className="grid grid-cols-2 gap-2 mt-2">
               {SLOTS.map((s) => (
                 <button
@@ -217,8 +217,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                   }}
                   className={`py-2 px-2.5 rounded-xl text-[11px] font-extrabold text-center border transition-all truncate ${
                     slot === s
-                      ? 'bg-[#FA0C57] text-white border-[#FA0C57] shadow-sm'
-                      : 'bg-[#FFF0F5] text-[#FA0C57] border-[#FFE0EB] hover:bg-[#FFE2EC]'
+                      ? 'bg-[#6C5DD3] text-white border-[#6C5DD3] shadow-sm'
+                      : 'bg-[#F8F7FF] text-[#05193C] border-[#DDD8FB] hover:bg-[#F0EEFD]'
                   }`}
                 >
                   {s}
@@ -238,7 +238,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
           <div>
             <label htmlFor="reading-value-input" className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center justify-between">
               <span className="flex items-center space-x-1.5">
-                <Droplets className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <Droplets className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>Glucose Value (mg/dl)</span>
               </span>
               <span className="text-[10px] text-[#05193C]/50 font-normal">Range: 40 – 600</span>
@@ -257,8 +257,8 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
                   setValue(e.target.value);
                   setFieldErrors((prev) => ({ ...prev, value: null }));
                 }}
-                className={`w-full px-4 py-3 bg-[#F8F9FC] border rounded-2xl text-lg font-extrabold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 transition-all pr-16 ${
-                  fieldErrors.value ? 'border-rose-400 bg-rose-50/40' : 'border-[#E8ECF4] focus:border-[#FA0C57]'
+                className={`w-full px-4 py-3 bg-[#F8F7FF] border rounded-2xl text-lg font-extrabold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 transition-all pr-16 ${
+                  fieldErrors.value ? 'border-rose-400 bg-rose-50/40' : 'border-[#EDE9FE] focus:border-[#6C5DD3]'
                 }`}
               />
               <span className="absolute right-4 top-3.5 text-xs font-extrabold text-[#05193C]/40">
@@ -274,7 +274,7 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
 
             {/* Live Clinical Tag Preview */}
             {previewCategory && (
-              <div className="mt-2.5 p-2.5 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between text-xs">
+              <div className="mt-2.5 p-2.5 rounded-2xl bg-[#F8F7FF] border border-[#EDE9FE] flex items-center justify-between text-xs">
                 <span className="text-[#05193C]/60 font-medium">Status Assessment:</span>
                 <span className={`inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full font-bold ${previewCategory.badgeColor}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${previewCategory.dotColor}`}></span>
@@ -284,20 +284,20 @@ export default function ReadingModal({ isOpen, onClose, onSuccess, initialData =
             )}
           </div>
 
-          {/* Action Buttons: Primary (#FA0C57) and Light Button (#FFF0F5 / #FA0C57) */}
+          {/* Action Buttons: Primary (#6C5DD3) and Light Button (#F0EEFD) */}
           <div className="pt-2 flex items-center space-x-3">
             <button
               type="button"
               onClick={onClose}
               disabled={submitting}
-              className="w-1/2 py-3 px-4 border border-[#FFE0EB] bg-[#FFF0F5] hover:bg-[#FFE2EC] rounded-2xl text-xs font-extrabold text-[#FA0C57] transition-all"
+              className="w-1/2 py-3 px-4 border border-[#DDD8FB] bg-[#F0EEFD] hover:bg-[#E4E0FD] rounded-2xl text-xs font-extrabold text-[#6C5DD3] transition-all"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="w-1/2 py-3 px-4 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white rounded-2xl text-xs font-extrabold shadow-primary-glow transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-1/2 py-3 px-4 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white rounded-2xl text-xs font-extrabold shadow-sm transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               {submitting ? (
                 <>

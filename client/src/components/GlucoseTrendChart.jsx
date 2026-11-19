@@ -14,7 +14,7 @@ import { getGlucoseCategory } from '../utils/glucoseHelpers';
 export default function GlucoseTrendChart({ data, title = 'Blood Glucose Trend' }) {
   if (!data || data.length === 0) {
     return (
-      <div className="bg-white rounded-3xl p-6 border border-[#E8ECF4] shadow-soft text-center">
+      <div className="bg-white rounded-3xl p-6 border border-[#EDE9FE] shadow-soft text-center">
         <p className="text-sm font-bold text-[#05193C]">No chart data available</p>
         <p className="text-xs text-[#05193C]/60 mt-1">Log readings to see visual glycemic curves.</p>
       </div>
@@ -36,7 +36,7 @@ export default function GlucoseTrendChart({ data, title = 'Blood Glucose Trend' 
       const p = payload[0].payload;
       const cat = getGlucoseCategory(p.value);
       return (
-        <div className="bg-white p-3.5 rounded-2xl shadow-soft-lg border border-[#E8ECF4] text-xs space-y-1">
+        <div className="bg-white p-3.5 rounded-2xl shadow-soft-lg border border-[#EDE9FE] text-xs space-y-1">
           <p className="font-extrabold text-[#05193C]">{p.fullDate}</p>
           <p className="text-[#05193C]/60 text-[11px] font-medium">{p.slot}</p>
           <div className="flex items-center space-x-1.5 pt-1">
@@ -53,7 +53,7 @@ export default function GlucoseTrendChart({ data, title = 'Blood Glucose Trend' 
   };
 
   return (
-    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-[#E8ECF4] shadow-soft">
+    <div className="bg-white rounded-3xl p-5 sm:p-7 border border-[#EDE9FE] shadow-soft">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
         <div>
           <h3 className="text-base font-extrabold text-[#05193C]">{title}</h3>
@@ -61,11 +61,11 @@ export default function GlucoseTrendChart({ data, title = 'Blood Glucose Trend' 
         </div>
         <div className="flex items-center space-x-3 text-[11px] font-bold text-[#05193C]/60">
           <span className="flex items-center space-x-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#FA0C57]"></span>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#6C5DD3]"></span>
             <span>Glucose Curve</span>
           </span>
           <span className="flex items-center space-x-1.5">
-            <span className="w-3 h-0.5 bg-[#FA0C57]/60"></span>
+            <span className="w-3 h-0.5 bg-[#EF4444]/60"></span>
             <span>Thresholds</span>
           </span>
         </div>
@@ -74,21 +74,21 @@ export default function GlucoseTrendChart({ data, title = 'Blood Glucose Trend' 
       <div className="h-64 sm:h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartPoints} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F1F3FA" vertical={false} />
-            <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#05193C', opacity: 0.6 }} tickLine={false} axisLine={{ stroke: '#E8ECF4' }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#F1EEFD" vertical={false} />
+            <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#05193C', opacity: 0.6 }} tickLine={false} axisLine={{ stroke: '#EDE9FE' }} />
             <YAxis domain={[40, 'auto']} tick={{ fontSize: 11, fill: '#05193C', opacity: 0.6 }} tickLine={false} axisLine={false} />
             <Tooltip content={<CustomTooltip />} />
             
             {/* Target band reference lines */}
-            <ReferenceLine y={140} stroke="#FA0C57" strokeDasharray="4 4" label={{ value: '140 Max', fill: '#FA0C57', fontSize: 10, position: 'right' }} />
-            <ReferenceLine y={70} stroke="#FFB800" strokeDasharray="4 4" label={{ value: '70 Min', fill: '#FFB800', fontSize: 10, position: 'right' }} />
+            <ReferenceLine y={140} stroke="#EF4444" strokeDasharray="4 4" label={{ value: '140 Max', fill: '#EF4444', fontSize: 10, position: 'right' }} />
+            <ReferenceLine y={70} stroke="#F59E0B" strokeDasharray="4 4" label={{ value: '70 Min', fill: '#F59E0B', fontSize: 10, position: 'right' }} />
 
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#FA0C57"
+              stroke="#6C5DD3"
               strokeWidth={3}
-              dot={{ r: 4, fill: '#FA0C57', strokeWidth: 2, stroke: '#FFFFFF' }}
+              dot={{ r: 4, fill: '#6C5DD3', strokeWidth: 2, stroke: '#FFFFFF' }}
               activeDot={{ r: 7, fill: '#05193C', stroke: '#FFFFFF', strokeWidth: 2 }}
             />
           </LineChart>

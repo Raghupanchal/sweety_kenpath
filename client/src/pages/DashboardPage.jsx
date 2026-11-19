@@ -12,11 +12,13 @@ import {
   Trash2,
   CheckCircle,
   Calendar,
+  BellRing,
 } from 'lucide-react';
 import { SLOTS, getTodayString, formatDateDisplay, getGlucoseCategory } from '../utils/glucoseHelpers';
 import api from '../services/api';
 import ReadingModal from '../components/ReadingModal';
 import DeleteModal from '../components/DeleteModal';
+import LiveRoundClock from '../components/LiveRoundClock';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -33,6 +35,11 @@ export default function DashboardPage() {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [readingToDelete, setReadingToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [activeReminderPopup, setActiveReminderPopup] = useState(null);
+
+  const handleTriggerReminder = (alertData) => {
+    setActiveReminderPopup(alertData);
+  };
 
   const fetchDashboardData = async () => {
     try {
@@ -103,26 +110,23 @@ export default function DashboardPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-8 space-y-6 md:space-y-8 pb-24 md:pb-12">
       {/* ================= HERO GLUCOSE MONITORING CARD ================= */}
-      <div className="relative overflow-hidden bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-9 border border-[#E8ECF4] shadow-soft">
-        {/* Ambient brand glow accents */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-[#FFF0F5] via-[#FFE2EC]/30 to-transparent rounded-full blur-2xl pointer-events-none -mr-16 -mt-16"></div>
-
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
+      <div className="relative overflow-hidden bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-9 border border-[#EDE9FE] shadow-soft">
+        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8">
           {/* Central Droplet & Status Graphic */}
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-7 text-center sm:text-left">
             {/* Concentric Circle Droplet Motif */}
             <div className="relative w-28 h-28 sm:w-32 sm:h-32 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#FFC5D9] animate-[spin_40s_linear_infinite]"></div>
-              <div className="absolute inset-2.5 rounded-full bg-[#FFF0F5] border border-[#FFE0EB]"></div>
-              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-[#FA0C57] text-white flex items-center justify-center shadow-primary-glow transform hover:scale-105 transition-transform">
-                <Droplets className="w-9 h-9 sm:w-10 sm:h-10 fill-white/20" />
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#DDD8FB] animate-[spin_40s_linear_infinite]"></div>
+              <div className="absolute inset-2.5 rounded-full bg-gradient-to-br from-[#F8F7FF] via-white to-[#F0EEFD] border border-[#DDD8FB]"></div>
+              <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full bg-[#6C5DD3] text-white flex items-center justify-center shadow-md transform hover:scale-105 transition-transform">
+                <Droplets className="w-9 h-9 sm:w-10 sm:h-10 fill-white/25" />
               </div>
             </div>
 
             {/* Glucose Level & Status */}
             <div>
               <div className="flex items-center justify-center sm:justify-start space-x-2 text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">
-                <Clock className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <Clock className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>{latestReading ? `Latest: ${latestReading.slot}` : "Today's Status"}</span>
               </div>
 
@@ -146,30 +150,33 @@ export default function DashboardPage() {
             </div>
           </div>
 
+          {/* Middle: Real-time Round Analog Health Clock & Alert Widget */}
+          <LiveRoundClock onTriggerReminder={handleTriggerReminder} />
+
           {/* Right Action Button & Progress */}
-          <div className="w-full sm:w-auto flex flex-col items-center sm:items-end space-y-3.5">
-            <div className="text-center sm:text-right">
+          <div className="w-full lg:w-auto flex flex-col items-center lg:items-end space-y-3.5">
+            <div className="text-center lg:text-right">
               <span className="text-xs font-semibold text-[#05193C]/60">Daily Target Progress</span>
               <p className="text-sm font-extrabold text-[#05193C]">
                 {todayReadings.length} of 4 Slots Logged
               </p>
               {/* Progress bar */}
-              <div className="w-48 h-2 bg-slate-100 rounded-full overflow-hidden mt-1.5 mx-auto sm:ml-auto">
+              <div className="w-48 h-2 bg-[#F0EEFD] rounded-full overflow-hidden mt-1.5 mx-auto lg:ml-auto">
                 <div
-                  className="h-full bg-gradient-to-r from-[#05193C] to-[#FA0C57] rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-[#05193C] to-[#6C5DD3] rounded-full transition-all duration-500"
                   style={{ width: `${(todayReadings.length / 4) * 100}%` }}
                 ></div>
               </div>
             </div>
 
-            {/* Primary Button: #FA0C57 with White Text */}
+            {/* Primary Button: Professional Royal Periwinkle */}
             <button
               onClick={() => {
                 setModalInitialData(null);
                 setIsModalOpen(true);
               }}
               disabled={todayReadings.length >= 4}
-              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-primary-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
               <span>{todayReadings.length >= 4 ? 'All 4 Slots Complete' : 'Save Glucose Reading'}</span>
@@ -185,7 +192,7 @@ export default function DashboardPage() {
             <h2 className="text-base sm:text-lg font-bold text-[#05193C]">Today's Readings</h2>
             <p className="text-xs text-[#05193C]/60 font-medium">4 clinical slots: fasting & post-meal</p>
           </div>
-          <span className="text-[11px] font-extrabold text-[#FA0C57] bg-[#FFF0F5] px-3 py-1 rounded-full border border-[#FFE0EB]">
+          <span className="text-[11px] font-extrabold text-[#6C5DD3] bg-[#F0EEFD] px-3 py-1 rounded-full border border-[#DDD8FB]">
             {todayReadings.length}/4 Done
           </span>
         </div>
@@ -201,8 +208,8 @@ export default function DashboardPage() {
                 key={slotName}
                 className={`rounded-3xl p-5 border transition-all ${
                   isRecorded
-                    ? 'bg-white border-[#E8ECF4] shadow-soft hover:border-[#FA0C57]/40'
-                    : 'bg-white/70 border-dashed border-[#FFC5D9] hover:bg-white'
+                    ? 'bg-white border-[#EDE9FE] shadow-soft hover:border-[#6C5DD3]/40'
+                    : 'bg-white/70 border-dashed border-[#DDD8FB] hover:bg-white'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2.5">
@@ -212,7 +219,7 @@ export default function DashboardPage() {
                       <CheckCircle className="w-4 h-4" />
                     </span>
                   ) : (
-                    <span className="text-[10px] font-bold text-[#05193C]/50 bg-slate-100 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] font-bold text-[#05193C]/50 bg-[#F0EEFD] px-2 py-0.5 rounded-full">
                       Open
                     </span>
                   )}
@@ -225,7 +232,7 @@ export default function DashboardPage() {
                       <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                     </div>
 
-                    <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-100">
+                    <div className="mt-3 flex items-center justify-between pt-2 border-t border-[#EDE9FE]">
                       <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${category.badgeColor}`}>
                         {category.label}
                       </span>
@@ -233,7 +240,7 @@ export default function DashboardPage() {
                         <button
                           onClick={() => handleEditReading(reading)}
                           title="Edit reading"
-                          className="p-1.5 text-slate-400 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl transition-colors"
+                          className="p-1.5 text-slate-400 hover:text-[#6C5DD3] hover:bg-[#F0EEFD] rounded-xl transition-colors"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -250,10 +257,10 @@ export default function DashboardPage() {
                 ) : (
                   <div className="pt-2">
                     <p className="text-[11px] text-[#05193C]/50 mb-3">No entry recorded yet</p>
-                    {/* Light Button: Background #FFF0F5, Text #FA0C57 */}
+                    {/* Light Button: Lavender & Periwinkle */}
                     <button
                       onClick={() => handleOpenAddForSlot(slotName)}
-                      className="w-full py-2.5 px-3 rounded-2xl bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] text-[#FA0C57] text-xs font-extrabold flex items-center justify-center space-x-1.5 transition-all shadow-sm active:scale-95"
+                      className="w-full py-2.5 px-3 rounded-2xl bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] text-xs font-extrabold flex items-center justify-center space-x-1.5 transition-all shadow-sm active:scale-95"
                     >
                       <Plus className="w-3.5 h-3.5 stroke-[3]" />
                       <span>Log Slot</span>
@@ -275,7 +282,7 @@ export default function DashboardPage() {
           </div>
           <Link
             to="/reports"
-            className="text-xs font-extrabold text-[#FA0C57] hover:text-[#E00A4D] flex items-center space-x-1 group"
+            className="text-xs font-extrabold text-[#6C5DD3] hover:text-[#5B4DC7] flex items-center space-x-1 group"
           >
             <span>Full Reports</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -284,7 +291,7 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Today's Daily */}
-          <div className="bg-white rounded-3xl p-5 border border-[#E8ECF4] shadow-soft">
+          <div className="bg-white rounded-3xl p-5 border border-[#EDE9FE] shadow-soft">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">Daily Average (Today)</span>
             {reportsData?.daily?.count > 0 ? (
               <div className="mt-2">
@@ -292,7 +299,7 @@ export default function DashboardPage() {
                   <span className="text-3xl font-extrabold text-[#05193C]">{reportsData.daily.average?.toFixed(1)}</span>
                   <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-[#EDE9FE]">
                   <span>High: <strong>{reportsData.daily.highest}</strong></span>
                   <span>Low: <strong>{reportsData.daily.lowest}</strong></span>
                   <span>Readings: <strong>{reportsData.daily.count}</strong></span>
@@ -304,7 +311,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Month to Date */}
-          <div className="bg-white rounded-3xl p-5 border border-[#E8ECF4] shadow-soft">
+          <div className="bg-white rounded-3xl p-5 border border-[#EDE9FE] shadow-soft">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">Month-to-Date Avg</span>
             {reportsData?.monthToDate?.count > 0 ? (
               <div className="mt-2">
@@ -312,7 +319,7 @@ export default function DashboardPage() {
                   <span className="text-3xl font-extrabold text-[#05193C]">{reportsData.monthToDate.average?.toFixed(1)}</span>
                   <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-[#EDE9FE]">
                   <span>High: <strong>{reportsData.monthToDate.highest}</strong></span>
                   <span>Low: <strong>{reportsData.monthToDate.lowest}</strong></span>
                   <span>Readings: <strong>{reportsData.monthToDate.count}</strong></span>
@@ -324,7 +331,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Previous Month */}
-          <div className="bg-white rounded-3xl p-5 border border-[#E8ECF4] shadow-soft">
+          <div className="bg-white rounded-3xl p-5 border border-[#EDE9FE] shadow-soft">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">
               {reportsData?.monthly?.monthLabel || 'Previous Month'}
             </span>
@@ -334,7 +341,7 @@ export default function DashboardPage() {
                   <span className="text-3xl font-extrabold text-[#05193C]">{reportsData.monthly.average?.toFixed(1)}</span>
                   <span className="text-xs font-semibold text-[#05193C]/50">mg/dl</span>
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-slate-100">
+                <div className="mt-3 flex items-center justify-between text-xs text-[#05193C]/70 pt-2.5 border-t border-[#EDE9FE]">
                   <span>High: <strong>{reportsData.monthly.highest}</strong></span>
                   <span>Low: <strong>{reportsData.monthly.lowest}</strong></span>
                   <span>Readings: <strong>{reportsData.monthly.count}</strong></span>
@@ -348,15 +355,15 @@ export default function DashboardPage() {
       </div>
 
       {/* ================= RECENT READINGS LIST (RESPONSIVE TABLE + MOBILE CARDS) ================= */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#E8ECF4] shadow-soft">
+      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#EDE9FE] shadow-soft">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-base font-bold text-[#05193C]">Recent Entries</h2>
           <Link
             to="/readings"
-            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-2xl bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] text-[#FA0C57] text-xs font-extrabold transition-all active:scale-95 shadow-sm"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-2xl bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] text-xs font-bold transition-all active:scale-95 shadow-sm"
           >
             <span>View History</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#6C5DD3]" />
           </Link>
         </div>
 
@@ -366,7 +373,7 @@ export default function DashboardPage() {
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-[#E8ECF4] text-[11px] font-bold uppercase text-[#05193C]/60">
+                  <tr className="border-b border-[#EDE9FE] text-[11px] font-bold uppercase text-[#05193C]/60">
                     <th className="pb-3 pl-2">Date</th>
                     <th className="pb-3">Slot</th>
                     <th className="pb-3">Value</th>
@@ -374,11 +381,11 @@ export default function DashboardPage() {
                     <th className="pb-3 pr-2 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#EDE9FE]/50">
                   {recentReadings.map((r) => {
                     const cat = getGlucoseCategory(r.value);
                     return (
-                      <tr key={r.id} className="hover:bg-slate-50/70 transition-colors">
+                      <tr key={r.id} className="hover:bg-[#F8F7FF]/70 transition-colors">
                         <td className="py-3.5 pl-2 font-bold text-[#05193C]">
                           {formatDateDisplay(r.reading_date)}
                         </td>
@@ -394,7 +401,7 @@ export default function DashboardPage() {
                         <td className="py-3.5 pr-2 text-right space-x-1">
                           <button
                             onClick={() => handleEditReading(r)}
-                            className="p-1.5 text-slate-400 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl transition-colors"
+                            className="p-1.5 text-slate-400 hover:text-[#6C5DD3] hover:bg-[#F0EEFD] rounded-xl transition-colors"
                             title="Edit"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -421,7 +428,7 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={r.id}
-                    className="p-3.5 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between"
+                    className="p-3.5 rounded-2xl bg-[#F8F7FF] border border-[#EDE9FE] flex items-center justify-between"
                   >
                     <div>
                       <p className="text-xs font-bold text-[#05193C]">{r.slot}</p>
@@ -437,10 +444,10 @@ export default function DashboardPage() {
                           </span>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1 pl-2 border-l border-slate-200">
+                      <div className="flex items-center space-x-1 pl-2 border-l border-[#EDE9FE]">
                         <button
                           onClick={() => handleEditReading(r)}
-                          className="p-1.5 text-slate-400 hover:text-[#FA0C57]"
+                          className="p-1.5 text-slate-400 hover:text-[#6C5DD3]"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -477,6 +484,41 @@ export default function DashboardPage() {
         reading={readingToDelete}
         deleting={deleting}
       />
+
+      {/* Glucose Alert Reminder Trigger Popup */}
+      {activeReminderPopup && (
+        <div className="fixed inset-0 z-50 bg-[#05193C]/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full border border-[#DDD8FB] shadow-soft-lg animate-in fade-in zoom-in-95 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-[#F0EEFD] border border-[#DDD8FB] text-[#6C5DD3] flex items-center justify-center mx-auto mb-3 shadow-soft">
+              <BellRing className="w-7 h-7 animate-bounce" />
+            </div>
+            <h3 className="text-lg font-extrabold text-[#05193C]">Time to Check Glucose!</h3>
+            <p className="text-xs text-[#05193C]/70 mt-1">
+              Your scheduled reminder for <strong className="text-[#6C5DD3]">{activeReminderPopup.slot}</strong> is due now.
+            </p>
+
+            <div className="mt-5 space-y-2">
+              <button
+                onClick={() => {
+                  const slotName = activeReminderPopup.slot;
+                  setActiveReminderPopup(null);
+                  handleOpenAddForSlot(slotName);
+                }}
+                className="w-full py-3 px-4 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white rounded-2xl text-xs font-extrabold shadow-sm transition-all flex items-center justify-center space-x-2"
+              >
+                <Plus className="w-4 h-4 stroke-[3]" />
+                <span>Log {activeReminderPopup.slot} Now</span>
+              </button>
+              <button
+                onClick={() => setActiveReminderPopup(null)}
+                className="w-full py-2.5 px-4 bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] text-[#6C5DD3] rounded-2xl text-xs font-extrabold transition-all"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

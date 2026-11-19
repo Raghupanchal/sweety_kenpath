@@ -109,13 +109,13 @@ export default function ReadingsPage() {
             <span>View Dashboard</span>
           </Link>
 
-          {/* Primary Button: Save Glucose Reading (#FA0C57 text #FFFFFF) */}
+          {/* Primary Button: Save Glucose Reading */}
           <button
             onClick={() => {
               setModalInitialData(null);
               setIsModalOpen(true);
             }}
-            className="inline-flex items-center space-x-2 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-4.5 py-2.5 rounded-2xl shadow-primary-glow transition-all"
+            className="inline-flex items-center space-x-2 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white font-extrabold text-xs sm:text-sm px-4.5 py-2.5 rounded-2xl shadow-sm transition-all"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Save Glucose Reading</span>
@@ -124,10 +124,10 @@ export default function ReadingsPage() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="bg-white rounded-3xl p-4 sm:p-5 border border-[#E8ECF4] shadow-soft flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <div className="bg-white rounded-3xl p-4 sm:p-5 border border-[#EDE9FE] shadow-soft flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
           <div className="flex items-center space-x-1.5 text-xs font-bold text-[#05193C]/60 uppercase tracking-wider pr-1">
-            <Filter className="w-3.5 h-3.5 text-[#FA0C57]" />
+            <Filter className="w-3.5 h-3.5 text-[#6C5DD3]" />
             <span>Filter:</span>
           </div>
 
@@ -137,7 +137,7 @@ export default function ReadingsPage() {
               type="date"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="px-3 py-2 bg-[#F8F9FC] border border-[#E8ECF4] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57]"
+              className="px-3 py-2 bg-[#F8F7FF] border border-[#EDE9FE] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3]"
             />
           </div>
 
@@ -146,7 +146,7 @@ export default function ReadingsPage() {
             <select
               value={slotFilter}
               onChange={(e) => setSlotFilter(e.target.value)}
-              className="px-3 py-2 bg-[#F8F9FC] border border-[#E8ECF4] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57]"
+              className="px-3 py-2 bg-[#F8F7FF] border border-[#EDE9FE] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3]"
             >
               <option value="">All Slots</option>
               {SLOTS.map((s) => (
@@ -160,7 +160,7 @@ export default function ReadingsPage() {
           {(dateFilter || slotFilter) && (
             <button
               onClick={handleClearFilters}
-              className="inline-flex items-center space-x-1 text-xs text-[#FA0C57] bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] font-extrabold px-3 py-1.5 rounded-xl transition-all"
+              className="inline-flex items-center space-x-1 text-xs text-[#6C5DD3] bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] font-bold px-3 py-1.5 rounded-xl transition-all"
             >
               <XCircle className="w-3.5 h-3.5" />
               <span>Reset</span>
@@ -170,18 +170,18 @@ export default function ReadingsPage() {
 
         <button
           onClick={() => fetchReadings(pagination.page)}
-          className="p-2 text-[#05193C]/50 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl self-end md:self-auto transition-colors"
+          className="p-2 text-[#05193C]/50 hover:text-[#6C5DD3] hover:bg-[#F0EEFD] rounded-xl self-end md:self-auto transition-colors"
           title="Refresh table"
         >
-          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#FA0C57]' : ''}`} />
+          <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#6C5DD3]' : ''}`} />
         </button>
       </div>
 
       {/* Readings Table Card */}
-      <div className="bg-white rounded-3xl border border-[#E8ECF4] shadow-soft overflow-hidden">
+      <div className="bg-white rounded-3xl border border-[#EDE9FE] shadow-soft overflow-hidden">
         {loading ? (
           <div className="py-16 text-center">
-            <div className="w-8 h-8 border-4 border-[#FA0C57] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <div className="w-8 h-8 border-4 border-[#6C5DD3] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
             <p className="text-xs text-[#05193C]/60">Loading readings log...</p>
           </div>
         ) : readings.length > 0 ? (
@@ -189,7 +189,7 @@ export default function ReadingsPage() {
             {/* Desktop Table */}
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="bg-[#F8F9FC] border-b border-[#E8ECF4]">
+                <thead className="bg-[#F8F7FF] border-b border-[#EDE9FE]">
                   <tr className="text-[11px] font-bold uppercase text-[#05193C]/60">
                     <th className="py-3.5 pl-6">Date</th>
                     <th className="py-3.5 px-4">Time Slot</th>
@@ -198,11 +198,11 @@ export default function ReadingsPage() {
                     <th className="py-3.5 pr-6 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#F1F3FA]">
+                <tbody className="divide-y divide-[#EDE9FE]/50">
                   {readings.map((r) => {
                     const cat = getGlucoseCategory(r.value);
                     return (
-                      <tr key={r.id} className="hover:bg-[#F8F9FC]/80 transition-colors">
+                      <tr key={r.id} className="hover:bg-[#F8F7FF]/80 transition-colors">
                         <td className="py-4 pl-6 font-bold text-[#05193C]">
                           {formatDateDisplay(r.reading_date)}
                         </td>
@@ -222,7 +222,7 @@ export default function ReadingsPage() {
                         <td className="py-4 pr-6 text-right space-x-1">
                           <button
                             onClick={() => handleEdit(r)}
-                            className="p-1.5 text-slate-400 hover:text-[#FA0C57] hover:bg-[#FFF0F5] rounded-xl transition-colors"
+                            className="p-1.5 text-slate-400 hover:text-[#6C5DD3] hover:bg-[#F0EEFD] rounded-xl transition-colors"
                             title="Edit"
                           >
                             <Edit2 className="w-4 h-4" />
@@ -249,7 +249,7 @@ export default function ReadingsPage() {
                 return (
                   <div
                     key={r.id}
-                    className="p-4 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between shadow-sm"
+                    className="p-4 rounded-2xl bg-[#F8F7FF] border border-[#EDE9FE] flex items-center justify-between shadow-sm"
                   >
                     <div>
                       <span className="text-xs font-extrabold text-[#05193C]">{r.slot}</span>
@@ -267,10 +267,10 @@ export default function ReadingsPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center space-x-1 pl-2 border-l border-slate-200">
+                      <div className="flex items-center space-x-1 pl-2 border-l border-[#EDE9FE]">
                         <button
                           onClick={() => handleEdit(r)}
-                          className="p-1.5 text-slate-400 hover:text-[#FA0C57]"
+                          className="p-1.5 text-slate-400 hover:text-[#6C5DD3]"
                         >
                           <Edit2 className="w-3.5 h-3.5" />
                         </button>
@@ -298,7 +298,7 @@ export default function ReadingsPage() {
             {(dateFilter || slotFilter) && (
               <button
                 onClick={handleClearFilters}
-                className="mt-3 text-xs font-extrabold text-[#FA0C57] hover:underline"
+                className="mt-3 text-xs font-extrabold text-[#6C5DD3] hover:underline"
               >
                 Clear all filters
               </button>
@@ -308,7 +308,7 @@ export default function ReadingsPage() {
 
         {/* Pagination Footer */}
         {pagination.total > 0 && (
-          <div className="p-4 bg-[#F8F9FC] border-t border-[#E8ECF4] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#05193C]/60">
+          <div className="p-4 bg-[#F8F7FF] border-t border-[#EDE9FE] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#05193C]/60">
             <div>
               Showing <strong className="text-[#05193C]">{startRecord}</strong> to{' '}
               <strong className="text-[#05193C]">{endRecord}</strong> of{' '}
@@ -319,7 +319,7 @@ export default function ReadingsPage() {
               <button
                 onClick={() => fetchReadings(pagination.page - 1)}
                 disabled={!pagination.hasPrevPage || loading}
-                className="p-2 rounded-xl border border-[#E8ECF4] bg-white hover:bg-[#FFF0F5] hover:text-[#FA0C57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-xl border border-[#EDE9FE] bg-white hover:bg-[#F0EEFD] hover:text-[#6C5DD3] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 title="Previous page"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -332,7 +332,7 @@ export default function ReadingsPage() {
               <button
                 onClick={() => fetchReadings(pagination.page + 1)}
                 disabled={!pagination.hasNextPage || loading}
-                className="p-2 rounded-xl border border-[#E8ECF4] bg-white hover:bg-[#FFF0F5] hover:text-[#FA0C57] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-xl border border-[#EDE9FE] bg-white hover:bg-[#F0EEFD] hover:text-[#6C5DD3] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 title="Next page"
               >
                 <ChevronRight className="w-4 h-4" />

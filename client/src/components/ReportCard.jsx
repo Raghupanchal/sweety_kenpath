@@ -6,13 +6,13 @@ export default function ReportCard({ title, subtitle, dateRange, stats, icon: Ic
   const hasData = stats && stats.count > 0;
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-[#E8ECF4] shadow-soft flex flex-col justify-between transition-all hover:border-[#FA0C57]/40">
+    <div className="bg-white rounded-3xl p-6 border border-[#EDE9FE] shadow-soft flex flex-col justify-between transition-all hover:border-[#6C5DD3]/40">
       {/* Card Header */}
       <div>
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
             {Icon && (
-              <div className="w-11 h-11 rounded-2xl bg-[#FFF0F5] text-[#FA0C57] flex items-center justify-center border border-[#FFE0EB]">
+              <div className="w-11 h-11 rounded-2xl bg-[#F0EEFD] text-[#6C5DD3] flex items-center justify-center border border-[#DDD8FB]">
                 <Icon className="w-5 h-5 stroke-[2.2]" />
               </div>
             )}
@@ -22,7 +22,7 @@ export default function ReportCard({ title, subtitle, dateRange, stats, icon: Ic
             </div>
           </div>
           {dateRange && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-extrabold bg-[#FFF0F5] text-[#FA0C57] border border-[#FFE0EB]">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold bg-[#F0EEFD] text-[#6C5DD3] border border-[#DDD8FB]">
               {dateRange}
             </span>
           )}
@@ -32,7 +32,7 @@ export default function ReportCard({ title, subtitle, dateRange, stats, icon: Ic
         {hasData ? (
           <div className="mt-6 space-y-4">
             {/* Average Main Metric */}
-            <div className="p-4 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-[#F8F7FF] border border-[#EDE9FE] flex items-center justify-between">
               <div>
                 <span className="text-[11px] font-bold uppercase tracking-wider text-[#05193C]/60">
                   Average Glucose
@@ -81,8 +81,8 @@ export default function ReportCard({ title, subtitle, dateRange, stats, icon: Ic
               </div>
 
               {/* Count */}
-              <div className="p-3 rounded-2xl bg-[#FFF0F5] border border-[#FFE0EB]">
-                <div className="flex items-center space-x-1 text-[#FA0C57] text-[11px] font-bold">
+              <div className="p-3 rounded-2xl bg-[#F0EEFD] border border-[#DDD8FB]">
+                <div className="flex items-center space-x-1 text-[#6C5DD3] text-[11px] font-bold">
                   <Hash className="w-3.5 h-3.5" />
                   <span>Readings</span>
                 </div>
@@ -92,12 +92,12 @@ export default function ReportCard({ title, subtitle, dateRange, stats, icon: Ic
               </div>
             </div>
 
-            {extraContent && <div className="mt-4 pt-3 border-t border-slate-100">{extraContent}</div>}
+            {extraContent && <div className="mt-4 pt-3 border-t border-[#EDE9FE]">{extraContent}</div>}
           </div>
         ) : (
-          <div className="my-8 py-7 px-4 bg-[#F8F9FC] rounded-2xl border border-dashed border-[#FFC5D9] text-center">
-            <div className="w-10 h-10 rounded-2xl bg-[#FFF0F5] text-[#FA0C57] flex items-center justify-center mx-auto mb-2.5 shadow-sm border border-[#FFE0EB]">
-              <Droplets className="w-5 h-5 fill-[#FA0C57]/20" />
+          <div className="my-8 py-7 px-4 bg-[#F8F7FF] rounded-2xl border border-dashed border-[#DDD8FB] text-center">
+            <div className="w-10 h-10 rounded-2xl bg-[#F0EEFD] text-[#6C5DD3] flex items-center justify-center mx-auto mb-2.5 shadow-sm border border-[#DDD8FB]">
+              <Droplets className="w-5 h-5 fill-[#6C5DD3]/20" />
             </div>
             <p className="text-xs font-bold text-[#05193C]">No readings recorded</p>
             <p className="text-[11px] text-[#05193C]/50 mt-1 max-w-[210px] mx-auto">

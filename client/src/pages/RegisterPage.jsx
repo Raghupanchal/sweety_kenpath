@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Droplets, Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -52,7 +52,7 @@ export default function RegisterPage() {
       className="min-h-screen flex items-center justify-center p-4 py-8 sm:py-12 bg-cover bg-center bg-no-repeat relative"
       style={{
         backgroundImage: `url('/auth-bg.jpg')`,
-        backgroundColor: '#F8F9FD',
+        backgroundColor: '#F8F7FF',
       }}
     >
       <div className="max-w-md w-full relative z-10">
@@ -79,7 +79,7 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center space-x-1.5">
-                <User className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <User className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>Full Name</span>
               </label>
               <input
@@ -88,13 +88,13 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-[#F8F9FC] border border-[#E8ECF4] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57] transition-all"
+                className="w-full px-4 py-3 bg-[#F8F7FF] border border-[#EDE9FE] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] transition-all"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center space-x-1.5">
-                <Mail className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <Mail className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>Email Address</span>
               </label>
               <input
@@ -103,13 +103,13 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-[#F8F9FC] border border-[#E8ECF4] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57] transition-all"
+                className="w-full px-4 py-3 bg-[#F8F7FF] border border-[#EDE9FE] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] transition-all"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center space-x-1.5">
-                <Lock className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <Lock className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>Password (min. 6 characters)</span>
               </label>
               <input
@@ -118,13 +118,13 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-[#F8F9FC] border border-[#E8ECF4] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57] transition-all"
+                className="w-full px-4 py-3 bg-[#F8F7FF] border border-[#EDE9FE] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] transition-all"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-bold uppercase tracking-wider text-[#05193C]/70 mb-1.5 flex items-center space-x-1.5">
-                <Lock className="w-3.5 h-3.5 text-[#FA0C57]" />
+                <Lock className="w-3.5 h-3.5 text-[#6C5DD3]" />
                 <span>Confirm Password</span>
               </label>
               <input
@@ -133,15 +133,15 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 bg-[#F8F9FC] border border-[#E8ECF4] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57] transition-all"
+                className="w-full px-4 py-3 bg-[#F8F7FF] border border-[#EDE9FE] rounded-2xl text-sm font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3] transition-all"
               />
             </div>
 
-            {/* Primary button: #FA0C57 text #FFFFFF */}
+            {/* Primary button: Soft Royal Periwinkle */}
             <button
               type="submit"
               disabled={submitting}
-              className="w-full mt-2 py-3.5 px-4 bg-[#FA0C57] hover:bg-[#E00A4D] active:scale-95 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-primary-glow transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-full mt-2 py-3.5 px-4 bg-[#6C5DD3] hover:bg-[#5B4DC7] active:scale-95 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-sm transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               {submitting ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -157,7 +157,7 @@ export default function RegisterPage() {
           <div className="mt-6 pt-5 border-t border-slate-100 text-center">
             <p className="text-xs text-[#05193C]/60">
               Already have an account?{' '}
-              <Link to="/login" className="font-extrabold text-[#FA0C57] hover:underline">
+              <Link to="/login" className="font-extrabold text-[#6C5DD3] hover:underline">
                 Log in
               </Link>
             </p>

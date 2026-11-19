@@ -69,9 +69,9 @@ export default function ReportsPage() {
           </Link>
 
           {/* Date Selector Control */}
-          <div className="flex items-center space-x-2 bg-white p-1.5 rounded-2xl border border-[#E8ECF4] shadow-soft">
+          <div className="flex items-center space-x-2 bg-white p-1.5 rounded-2xl border border-[#EDE9FE] shadow-soft">
             <div className="flex items-center space-x-1.5 px-2 text-xs font-bold text-[#05193C]/60">
-              <Calendar className="w-4 h-4 text-[#FA0C57]" />
+              <Calendar className="w-4 h-4 text-[#6C5DD3]" />
               <span>Date:</span>
             </div>
             <input
@@ -79,12 +79,12 @@ export default function ReportsPage() {
               max={todayStr}
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="px-3 py-1.5 bg-[#F8F9FC] border border-[#E8ECF4] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#FA0C57]/20 focus:border-[#FA0C57]"
+              className="px-3 py-1.5 bg-[#F8F7FF] border border-[#EDE9FE] rounded-xl text-xs font-bold text-[#05193C] focus:outline-none focus:ring-2 focus:ring-[#6C5DD3]/20 focus:border-[#6C5DD3]"
             />
             {selectedDate !== todayStr && (
               <button
                 onClick={handleResetToToday}
-                className="px-2.5 py-1 text-xs text-[#FA0C57] bg-[#FFF0F5] hover:bg-[#FFE2EC] border border-[#FFE0EB] font-extrabold flex items-center space-x-1 rounded-xl transition-all"
+                className="px-2.5 py-1 text-xs text-[#6C5DD3] bg-[#F0EEFD] hover:bg-[#E4E0FD] border border-[#DDD8FB] font-bold flex items-center space-x-1 rounded-xl transition-all"
                 title="Reset to today"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ export default function ReportsPage() {
 
       {loading ? (
         <div className="py-24 text-center">
-          <div className="w-10 h-10 border-4 border-[#FA0C57] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <div className="w-10 h-10 border-4 border-[#6C5DD3] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-xs text-[#05193C]/60 font-bold">Calculating clinical metrics...</p>
         </div>
       ) : (
@@ -123,7 +123,7 @@ export default function ReportsPage() {
                         return (
                           <div
                             key={r.id}
-                            className="p-2.5 rounded-2xl bg-[#F8F9FC] border border-[#E8ECF4] flex items-center justify-between text-xs"
+                            className="p-2.5 rounded-2xl bg-[#F8F7FF] border border-[#EDE9FE] flex items-center justify-between text-xs"
                           >
                             <span className="font-bold text-[#05193C]">{r.slot}</span>
                             <div className="flex items-center space-x-2">
